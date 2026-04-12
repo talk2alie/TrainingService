@@ -1,9 +1,12 @@
 
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.Extensions.Options;
 using Serilog;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using Training.Api.Middleware;
+using Training.Api.Swagger;
 
 namespace Training.Api;
 
@@ -20,12 +23,18 @@ public class Program
 
         // Add services to the container.
 
-        builder.Services.AddApiVersioning(options =>
-        {
-            options.DefaultApiVersion = new Asp.Versioning.ApiVersion(1, 0);
-            options.AssumeDefaultVersionWhenUnspecified = true;
-            options.ReportApiVersions = true;
-        });
+        builder.Services
+            .AddApiVersioning(options =>
+            {
+                options.DefaultApiVersion = new Asp.Versioning.ApiVersion(1, 0);
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.ReportApiVersions = true;
+            })
+            .AddApiExplorer(options =>
+            {
+                options.GroupNameFormat = "'v'VVV";
+                options.SubstituteApiVersionInUrl = true;
+            });
 
         builder.Services.AddControllers();
         builder.Services.AddFluentValidationAutoValidation();
@@ -53,6 +62,7 @@ public class Program
                 return new BadRequestObjectResult(envelope);
             };
         });
+        builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
@@ -63,8 +73,16 @@ public class Program
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
+            var apiVersionDescriptionProvider = app.DescribeApiVersions();
+
             app.UseSwagger();
-            app.UseSwaggerUI();
+            app.UseSwaggerUI(options =>
+            {
+                foreach (var description in apiVersionDescriptionProvider)
+                {
+                    options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
+                }
+            });
         }
 
         app.UseMiddleware<CorrelationIdMiddleware>();

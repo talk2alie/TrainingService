@@ -1,11 +1,25 @@
 namespace Training.Api.Middleware;
 
-public sealed class GlobalExceptionMiddleware(RequestDelegate next)
+public sealed class GlobalExceptionMiddleware(RequestDelegate next, ILogger<GlobalExceptionMiddleware> logger)
 {
     private readonly RequestDelegate _next = next;
+    private readonly ILogger<GlobalExceptionMiddleware> _logger = logger;
 
-    public Task InvokeAsync(HttpContext context)
+    public async Task InvokeAsync(HttpContext context)
     {
-        return _next(context);
+        try
+        {
+            await _next(context);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex,
+                "Unhandled exception for {Method} {Path}. CorrelationId: {CorrelationId}",
+                context.Request.Method,
+                context.Request.Path,
+                context.TraceIdentifier);
+
+            throw;
+        }
     }
 }

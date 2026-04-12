@@ -22,6 +22,7 @@ public class Program
         builder.Host.UseSerilog((context, services, configuration) => configuration
             .ReadFrom.Configuration(context.Configuration)
             .ReadFrom.Services(services)
+            .Enrich.WithProperty("CorrelationId", "n/a")
             .Enrich.FromLogContext());
 
         // Add services to the container.
@@ -76,10 +77,14 @@ public class Program
 
         var app = builder.Build();
 
-        app.Logger.LogInformation("Training API is starting.");
+        if (app.Logger.IsEnabled(LogLevel.Information))
+        {
+            app.Logger.LogInformation("Training API is starting in {Environment}.", app.Environment.EnvironmentName);
+        }
 
         // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment())
+        var swaggerEnabled = app.Configuration.GetValue<bool>("Swagger:Enabled");
+        if (swaggerEnabled)
         {
             var apiVersionDescriptionProvider = app.DescribeApiVersions();
 
@@ -93,7 +98,14 @@ public class Program
             });
         }
 
-        app.UseMiddleware<CorrelationIdMiddleware>();
+        app.UseCorrelationIdMiddleware();
+        app.UseSerilogRequestLogging(options =>
+        {
+            options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
+            {
+                diagnosticContext.Set("CorrelationId", httpContext.TraceIdentifier);
+            };
+        });
         app.UseGlobalExceptionMiddleware();
 
         app.UseHttpsRedirection();
@@ -105,7 +117,12 @@ public class Program
         app.MapHealthChecks("/health");
 
         app.Lifetime.ApplicationStarted.Register(() =>
-            app.Logger.LogInformation("Training API started successfully."));
+        {
+            if (app.Logger.IsEnabled(LogLevel.Information))
+            {
+                app.Logger.LogInformation("Training API started successfully.");
+            }
+        });
 
         app.Run();
     }

@@ -72,6 +72,7 @@ public class Program
         builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+        builder.Services.AddHealthChecks();
 
         var app = builder.Build();
 
@@ -101,6 +102,7 @@ public class Program
 
 
         app.MapControllers();
+        app.MapHealthChecks("/health");
 
         app.Lifetime.ApplicationStarted.Register(() =>
             app.Logger.LogInformation("Training API started successfully."));

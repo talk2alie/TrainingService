@@ -4,8 +4,8 @@ namespace Training.Application.UseCases;
 
 public sealed class GetTrainingStatusUseCase
 {
-    public TrainingStatusDto Execute()
+    public TrainingStatusResponse Execute()
     {
-        return new TrainingStatusDto("Training.Api", "ok");
+        return new TrainingStatusResponse("Training.Api", "ok");
     }
 }

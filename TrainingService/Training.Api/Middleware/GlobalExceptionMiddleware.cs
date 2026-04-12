@@ -19,7 +19,20 @@ public sealed class GlobalExceptionMiddleware(RequestDelegate next, ILogger<Glob
                 context.Request.Path,
                 context.TraceIdentifier);
 
-            throw;
+            if (context.Response.HasStarted)
+            {
+                throw;
+            }
+
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            context.Response.ContentType = "application/json";
+
+            var error = new ErrorEnvelope(
+                Code: "internal_server_error",
+                Message: "An unexpected error occurred.",
+                CorrelationId: context.TraceIdentifier);
+
+            await context.Response.WriteAsJsonAsync(error, cancellationToken: context.RequestAborted);
         }
     }
 }

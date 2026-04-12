@@ -1,5 +1,6 @@
 
 using Serilog;
+using Microsoft.AspNetCore.Mvc;
 using Training.Api.Middleware;
 
 namespace Training.Api;
@@ -25,6 +26,29 @@ public class Program
         });
 
         builder.Services.AddControllers();
+        builder.Services.Configure<ApiBehaviorOptions>(options =>
+        {
+            options.InvalidModelStateResponseFactory = context =>
+            {
+                var details = context.ModelState
+                    .Where(x => x.Value is { Errors.Count: > 0 })
+                    .ToDictionary(
+                        x => x.Key,
+                        x => x.Value!.Errors
+                            .Select(error => string.IsNullOrWhiteSpace(error.ErrorMessage)
+                                ? "Invalid value."
+                                : error.ErrorMessage)
+                            .ToArray());
+
+                var envelope = new ErrorEnvelope(
+                    Code: "validation_error",
+                    Message: "One or more validation errors occurred.",
+                    CorrelationId: context.HttpContext.TraceIdentifier,
+                    Details: details);
+
+                return new BadRequestObjectResult(envelope);
+            };
+        });
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
@@ -40,7 +64,7 @@ public class Program
         }
 
         app.UseMiddleware<CorrelationIdMiddleware>();
-        app.UseMiddleware<GlobalExceptionMiddleware>();
+        app.UseGlobalExceptionMiddleware();
 
         app.UseHttpsRedirection();
 

@@ -1,4 +1,6 @@
 
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Serilog;
 using Microsoft.AspNetCore.Mvc;
 using Training.Api.Middleware;
@@ -26,6 +28,8 @@ public class Program
         });
 
         builder.Services.AddControllers();
+        builder.Services.AddFluentValidationAutoValidation();
+        builder.Services.AddValidatorsFromAssemblyContaining<Program>();
         builder.Services.Configure<ApiBehaviorOptions>(options =>
         {
             options.InvalidModelStateResponseFactory = context =>

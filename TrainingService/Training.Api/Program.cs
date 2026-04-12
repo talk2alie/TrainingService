@@ -4,6 +4,9 @@ using FluentValidation.AspNetCore;
 using Microsoft.Extensions.Options;
 using Serilog;
 using Microsoft.AspNetCore.Mvc;
+using Training.Application;
+using Training.Domain;
+using Training.Infrastructure;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Training.Api.Middleware;
 using Training.Api.Swagger;
@@ -35,6 +38,10 @@ public class Program
                 options.GroupNameFormat = "'v'VVV";
                 options.SubstituteApiVersionInUrl = true;
             });
+
+        builder.Services.AddDomainServices();
+        builder.Services.AddApplicationServices();
+        builder.Services.AddInfrastructureServices();
 
         builder.Services.AddControllers();
         builder.Services.AddFluentValidationAutoValidation();

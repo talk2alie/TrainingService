@@ -71,3 +71,17 @@ After deploy, verify:
 ```powershell
 az containerapp logs show -g $RG -n $APP --follow
 ```
+
+## Optional deployment script
+
+You can run the parameterized script instead of copying commands:
+
+```powershell
+pwsh ./scripts/Deploy-TrainingApiToAca.ps1 \
+  -ResourceGroup rg-training-dev \
+  -Location eastus \
+  -EnvironmentName cae-training-dev \
+  -AppName training-api \
+  -Image <your-registry>/training-api:latest \
+  -EnableSwagger
+```

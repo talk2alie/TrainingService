@@ -8,6 +8,7 @@ on:
     branches:
       - develop
       - main
+  workflow_dispatch:
 
 jobs:
   build:
@@ -26,15 +27,15 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.slnx', '**/Directory.Packages.props', '**/global.json') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore TrainingService/TrainingService.slnx
 
       - name: Build solution
-        run: dotnet build --no-restore --configuration Release
+        run: dotnet build TrainingService/TrainingService.slnx --no-restore --configuration Release
 
       - name: Run tests
-        run: dotnet test --no-build --configuration Release --verbosity normal
+        run: dotnet test TrainingService/TrainingService.slnx --no-build --configuration Release --verbosity normal

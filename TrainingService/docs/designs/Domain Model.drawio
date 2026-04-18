@@ -1,6 +1,6 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" version="29.6.6">
   <diagram name="Domain" id="1tDLRLkdcxJiZJHYoxEp">
-    <mxGraphModel dx="2409" dy="2073" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="2094" dy="2216" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -88,7 +88,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="CLWfaymG1J6tacPyQ9_a-26" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;fontFamily=Fira Code;" value="Session" vertex="1">
-          <mxGeometry height="220" width="360" x="41" y="-336" as="geometry" />
+          <mxGeometry height="272" width="360" x="41" y="-390" as="geometry" />
         </mxCell>
         <mxCell id="CLWfaymG1J6tacPyQ9_a-27" parent="CLWfaymG1J6tacPyQ9_a-26" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Fira Code;" value="+ Id: Guid" vertex="1">
           <mxGeometry height="26" width="360" y="30" as="geometry" />
@@ -108,46 +108,49 @@
         <mxCell id="CLWfaymG1J6tacPyQ9_a-28" parent="CLWfaymG1J6tacPyQ9_a-26" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Fira Code;" value="+ Exercises: ReadOnlyCollection&amp;lt;SessionExercise&amp;gt;" vertex="1">
           <mxGeometry height="26" width="360" y="160" as="geometry" />
         </mxCell>
+        <mxCell id="Zz3gh2vw9o2tfNWwLpe4-14" parent="CLWfaymG1J6tacPyQ9_a-26" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Fira Code;" value="+ Duration: Duration" vertex="1">
+          <mxGeometry height="26" width="360" y="186" as="geometry" />
+        </mxCell>
+        <mxCell id="Zz3gh2vw9o2tfNWwLpe4-13" parent="CLWfaymG1J6tacPyQ9_a-26" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Fira Code;" value="+ Note: SessionNote?" vertex="1">
+          <mxGeometry height="26" width="360" y="212" as="geometry" />
+        </mxCell>
         <mxCell id="CLWfaymG1J6tacPyQ9_a-29" parent="CLWfaymG1J6tacPyQ9_a-26" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;fontFamily=Fira Code;" value="" vertex="1">
-          <mxGeometry height="8" width="360" y="186" as="geometry" />
+          <mxGeometry height="8" width="360" y="238" as="geometry" />
         </mxCell>
         <mxCell id="CLWfaymG1J6tacPyQ9_a-30" parent="CLWfaymG1J6tacPyQ9_a-26" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Fira Code;" value="+ method(type): type" vertex="1">
-          <mxGeometry height="26" width="360" y="194" as="geometry" />
+          <mxGeometry height="26" width="360" y="246" as="geometry" />
         </mxCell>
         <mxCell id="CLWfaymG1J6tacPyQ9_a-31" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;fontFamily=Fira Code;" value="RoutineExercise" vertex="1">
-          <mxGeometry height="164" width="374" x="-272" y="-73" as="geometry" />
-        </mxCell>
-        <mxCell id="CLWfaymG1J6tacPyQ9_a-32" parent="CLWfaymG1J6tacPyQ9_a-31" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Fira Code;" value="+ RoutineId: Guid" vertex="1">
-          <mxGeometry height="26" width="374" y="26" as="geometry" />
+          <mxGeometry height="138" width="374" x="-272" y="-73" as="geometry" />
         </mxCell>
         <mxCell id="CLWfaymG1J6tacPyQ9_a-35" parent="CLWfaymG1J6tacPyQ9_a-31" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Fira Code;" value="+ ExerciseId: Guid" vertex="1">
-          <mxGeometry height="26" width="374" y="52" as="geometry" />
+          <mxGeometry height="26" width="374" y="26" as="geometry" />
         </mxCell>
         <mxCell id="bGxRRFbKySSS1c7e0zA5-34" parent="CLWfaymG1J6tacPyQ9_a-31" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Fira Code;" value="+ Order: Order" vertex="1">
-          <mxGeometry height="26" width="374" y="78" as="geometry" />
+          <mxGeometry height="26" width="374" y="52" as="geometry" />
         </mxCell>
         <mxCell id="CLWfaymG1J6tacPyQ9_a-50" parent="CLWfaymG1J6tacPyQ9_a-31" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Fira Code;" value="+ PlannedSets: ReadOnlyCollection&amp;lt;PlannedSet&amp;gt;" vertex="1">
-          <mxGeometry height="26" width="374" y="104" as="geometry" />
+          <mxGeometry height="26" width="374" y="78" as="geometry" />
         </mxCell>
         <mxCell id="CLWfaymG1J6tacPyQ9_a-33" parent="CLWfaymG1J6tacPyQ9_a-31" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;fontFamily=Fira Code;" value="" vertex="1">
-          <mxGeometry height="8" width="374" y="130" as="geometry" />
+          <mxGeometry height="8" width="374" y="104" as="geometry" />
         </mxCell>
         <mxCell id="CLWfaymG1J6tacPyQ9_a-34" parent="CLWfaymG1J6tacPyQ9_a-31" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Fira Code;" value="+ method(type): type" vertex="1">
-          <mxGeometry height="26" width="374" y="138" as="geometry" />
+          <mxGeometry height="26" width="374" y="112" as="geometry" />
         </mxCell>
         <mxCell id="CLWfaymG1J6tacPyQ9_a-36" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;fontFamily=Fira Code;" value="SessionExercise" vertex="1">
           <mxGeometry height="164" width="364" x="131" y="-40" as="geometry" />
         </mxCell>
-        <mxCell id="CLWfaymG1J6tacPyQ9_a-37" parent="CLWfaymG1J6tacPyQ9_a-36" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Fira Code;" value="+ SessionId: Guid" vertex="1">
+        <mxCell id="CLWfaymG1J6tacPyQ9_a-38" parent="CLWfaymG1J6tacPyQ9_a-36" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Fira Code;" value="+ ExerciseId: Guid" vertex="1">
           <mxGeometry height="26" width="364" y="26" as="geometry" />
         </mxCell>
-        <mxCell id="CLWfaymG1J6tacPyQ9_a-38" parent="CLWfaymG1J6tacPyQ9_a-36" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Fira Code;" value="+ ExerciseId: Guid" vertex="1">
+        <mxCell id="Zz3gh2vw9o2tfNWwLpe4-16" parent="CLWfaymG1J6tacPyQ9_a-36" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Fira Code;" value="+ Order: Order" vertex="1">
           <mxGeometry height="26" width="364" y="52" as="geometry" />
         </mxCell>
         <mxCell id="CLWfaymG1J6tacPyQ9_a-116" parent="CLWfaymG1J6tacPyQ9_a-36" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Fira Code;" value="+ LoggedSets: ReadOnlyCollection&amp;lt;LoggedSet&amp;gt;" vertex="1">
           <mxGeometry height="26" width="364" y="78" as="geometry" />
         </mxCell>
-        <mxCell id="CLWfaymG1J6tacPyQ9_a-124" parent="CLWfaymG1J6tacPyQ9_a-36" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Fira Code;" value="+ Note: SessionNote" vertex="1">
+        <mxCell id="CLWfaymG1J6tacPyQ9_a-124" parent="CLWfaymG1J6tacPyQ9_a-36" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Fira Code;" value="+ Note: SessionNote?" vertex="1">
           <mxGeometry height="26" width="364" y="104" as="geometry" />
         </mxCell>
         <mxCell id="CLWfaymG1J6tacPyQ9_a-39" parent="CLWfaymG1J6tacPyQ9_a-36" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;fontFamily=Fira Code;" value="" vertex="1">
@@ -167,12 +170,12 @@
         <mxCell id="CLWfaymG1J6tacPyQ9_a-51" edge="1" parent="1" source="CLWfaymG1J6tacPyQ9_a-49" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" target="CLWfaymG1J6tacPyQ9_a-31">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="-528" y="25" />
-              <mxPoint x="-528" y="46" />
+              <mxPoint x="-397" y="25" />
+              <mxPoint x="-397" y="25" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="CLWfaymG1J6tacPyQ9_a-49" parent="1" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fontFamily=Fira Code;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;ValueObject&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;PlannedSet&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;+ Order: Order&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;+ Weight: Weight?&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;+ Duration: Duration?&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;+ Distance: Distance?&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;+ Rpe: RpeScale&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;+ Reps: RepCount&lt;/span&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;" vertex="1">
+        <mxCell id="CLWfaymG1J6tacPyQ9_a-49" parent="1" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fontFamily=Fira Code;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;ValueObject&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;PlannedSet&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;+ Order: Order&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;+ Weight: Weight?&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;+ Duration: Duration?&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;+ Distance: Distance?&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;+ Rpe: RpeScale&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;+ Reps: RepCount?&lt;/span&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;" vertex="1">
           <mxGeometry height="143.25" width="190" x="-974" y="-17.25" as="geometry" />
         </mxCell>
         <mxCell id="CLWfaymG1J6tacPyQ9_a-61" edge="1" parent="1" source="CLWfaymG1J6tacPyQ9_a-60" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Fira Code;fontSize=12;fontColor=#333333;fontStyle=1;horizontal=1;endArrow=none;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" target="CLWfaymG1J6tacPyQ9_a-36">
@@ -185,14 +188,15 @@
             <mxPoint x="459" y="51" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="CLWfaymG1J6tacPyQ9_a-60" parent="1" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fontFamily=Fira Code;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;ValueObject&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;LoggedSet&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ SetOrder: Order&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ Weight: Weight&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ Reps: RepCount&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ Rpe: RpeScale&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ HeartRate: HeartRate&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ Note: string?&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;" vertex="1">
-          <mxGeometry height="155" width="190" x="1100" y="-61" as="geometry" />
+        <mxCell id="CLWfaymG1J6tacPyQ9_a-60" parent="1" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fontFamily=Fira Code;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;ValueObject&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;LoggedSet&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ Order: Order&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ Weight: Weight?&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ Duration: Duration?&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ Distance: Distance?&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ Reps: RepCount?&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ Rpe: RpeScale&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ HeartRate: HeartRate?&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ Note: LogNote?&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;" vertex="1">
+          <mxGeometry height="172" width="190" x="1100" y="-61" as="geometry" />
         </mxCell>
         <mxCell id="CLWfaymG1J6tacPyQ9_a-80" edge="1" parent="1" source="CLWfaymG1J6tacPyQ9_a-125" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Fira Code;fontSize=12;fontColor=#333333;fontStyle=1;horizontal=1;endArrow=none;endFill=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;" target="CLWfaymG1J6tacPyQ9_a-60">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="1369" y="-959" />
-              <mxPoint x="1369" y="55" />
+              <mxPoint x="1369" y="41" />
+              <mxPoint x="1290" y="41" />
             </Array>
             <mxPoint x="1194.9999999999995" y="192" as="sourcePoint" />
           </mxGeometry>
@@ -245,8 +249,8 @@
             <mxPoint x="1139" y="116" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="CLWfaymG1J6tacPyQ9_a-127" parent="1" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fontFamily=Fira Code;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;ValueObject&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;HeartRate&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ Thirty&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ ThirtyOne&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ ...&lt;/p&gt;&amp;nbsp;+ TwoTwenty&lt;br&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;" vertex="1">
-          <mxGeometry height="123" width="190" x="1100" y="143" as="geometry" />
+        <mxCell id="CLWfaymG1J6tacPyQ9_a-127" parent="1" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fontFamily=Fira Code;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;ValueObject&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;HeartRate&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ Value: int&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;" vertex="1">
+          <mxGeometry height="78" width="190" x="1100" y="143" as="geometry" />
         </mxCell>
         <mxCell id="CLWfaymG1J6tacPyQ9_a-130" edge="1" parent="1" source="CLWfaymG1J6tacPyQ9_a-129" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;fontFamily=Fira Code;fontSize=12;fontColor=#333333;fontStyle=1;horizontal=1;endArrow=none;endFill=0;" target="CLWfaymG1J6tacPyQ9_a-60">
           <mxGeometry relative="1" as="geometry">
@@ -259,7 +263,7 @@
         <mxCell id="bGxRRFbKySSS1c7e0zA5-37" edge="1" parent="1" source="CLWfaymG1J6tacPyQ9_a-129" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" target="CLWfaymG1J6tacPyQ9_a-49">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="CLWfaymG1J6tacPyQ9_a-129" parent="1" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fontFamily=Fira Code;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;ValueObject&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;Weight&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ Zero&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ One&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ ...&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ ThreeHundred&lt;/p&gt;" vertex="1">
+        <mxCell id="CLWfaymG1J6tacPyQ9_a-129" parent="1" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fontFamily=Fira Code;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;ValueObject&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;Weight&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ Value: decimal&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ Unit: WeightUnit&lt;/p&gt;" vertex="1">
           <mxGeometry height="123" width="190" x="-37" y="-857" as="geometry" />
         </mxCell>
         <mxCell id="CLWfaymG1J6tacPyQ9_a-133" edge="1" parent="1" source="CLWfaymG1J6tacPyQ9_a-132" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.25;entryDx=0;entryDy=0;fontFamily=Fira Code;fontSize=12;fontColor=#333333;fontStyle=1;horizontal=1;endArrow=none;endFill=0;" target="CLWfaymG1J6tacPyQ9_a-60">
@@ -269,7 +273,7 @@
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="-515" y="-624" />
-              <mxPoint x="-515" y="18" />
+              <mxPoint x="-515" y="-8" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -366,8 +370,74 @@
             <mxPoint x="520" y="-30" as="targetPoint" />
           </mxGeometry>
         </mxCell>
+        <mxCell id="Zz3gh2vw9o2tfNWwLpe4-15" edge="1" parent="1" source="bGxRRFbKySSS1c7e0zA5-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" target="CLWfaymG1J6tacPyQ9_a-26">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
         <mxCell id="bGxRRFbKySSS1c7e0zA5-30" parent="1" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fontFamily=Fira Code;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;ValueObject&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;SessionNote&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ Value&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;" vertex="1">
           <mxGeometry height="90" width="190" x="440" y="-206" as="geometry" />
+        </mxCell>
+        <mxCell id="Zz3gh2vw9o2tfNWwLpe4-5" edge="1" parent="1" source="Zz3gh2vw9o2tfNWwLpe4-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" target="CLWfaymG1J6tacPyQ9_a-49">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-1074" y="-1110" />
+              <mxPoint x="-1074" y="54" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Zz3gh2vw9o2tfNWwLpe4-9" edge="1" parent="1" source="Zz3gh2vw9o2tfNWwLpe4-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" target="CLWfaymG1J6tacPyQ9_a-60">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1395" y="-1110" />
+              <mxPoint x="1395" y="66" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Zz3gh2vw9o2tfNWwLpe4-1" parent="1" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fontFamily=Fira Code;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;ValueObject&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;Duration&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;+ Value: decimal&lt;br&gt;&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;+ Unit: TimeUnit&lt;/span&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;" vertex="1">
+          <mxGeometry height="96.25" width="190" x="-34" y="-1158" as="geometry" />
+        </mxCell>
+        <mxCell id="Zz3gh2vw9o2tfNWwLpe4-8" edge="1" parent="1" source="Zz3gh2vw9o2tfNWwLpe4-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" target="Zz3gh2vw9o2tfNWwLpe4-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-144" y="-1034" />
+              <mxPoint x="-144" y="-1091" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Zz3gh2vw9o2tfNWwLpe4-2" parent="1" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fontFamily=Fira Code;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;ValueObjectEnum&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;TimeUnit&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;+ Hour&lt;br&gt;&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;+ Minute&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;+ Second&lt;/span&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;" vertex="1">
+          <mxGeometry height="96.25" width="190" x="-444" y="-1082" as="geometry" />
+        </mxCell>
+        <mxCell id="Zz3gh2vw9o2tfNWwLpe4-7" edge="1" parent="1" source="Zz3gh2vw9o2tfNWwLpe4-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="CLWfaymG1J6tacPyQ9_a-49">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-1106" y="-1247" />
+              <mxPoint x="-1106" y="55" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Zz3gh2vw9o2tfNWwLpe4-10" edge="1" parent="1" source="Zz3gh2vw9o2tfNWwLpe4-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" target="CLWfaymG1J6tacPyQ9_a-60">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1424" y="-1247" />
+              <mxPoint x="1424" y="84" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Zz3gh2vw9o2tfNWwLpe4-6" parent="1" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fontFamily=Fira Code;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;ValueObject&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;Distance&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;+ Value: decimal&lt;br&gt;&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;+ Unit: DistanceUnit&lt;/span&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;" vertex="1">
+          <mxGeometry height="96.25" width="190" x="-34" y="-1295" as="geometry" />
+        </mxCell>
+        <mxCell id="Zz3gh2vw9o2tfNWwLpe4-12" edge="1" parent="1" source="Zz3gh2vw9o2tfNWwLpe4-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" target="Zz3gh2vw9o2tfNWwLpe4-6">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-144" y="-1177" />
+              <mxPoint x="-144" y="-1227" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Zz3gh2vw9o2tfNWwLpe4-11" parent="1" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fontFamily=Fira Code;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;ValueObjectEnum&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;DistanceUnit&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;+ Meter&lt;br&gt;&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;+ Kilometer&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;+ Mile&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;+ ...&lt;/span&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;" vertex="1">
+          <mxGeometry height="112.25" width="190" x="-444" y="-1233" as="geometry" />
+        </mxCell>
+        <mxCell id="Zz3gh2vw9o2tfNWwLpe4-17" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="30 &amp;lt;= Value &amp;lt;= 220" vertex="1">
+          <mxGeometry height="30" width="199" x="1095.5" y="230" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

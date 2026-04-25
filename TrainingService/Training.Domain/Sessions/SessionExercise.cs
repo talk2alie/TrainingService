@@ -17,7 +17,7 @@ public sealed class SessionExercise
         ExerciseNameSnapshot = Guard.AgainstNull(exerciseNameSnapshot, nameof(exerciseNameSnapshot));
         Order = Guard.AgainstNull(order, nameof(order));
         ArgumentNullException.ThrowIfNull(loggedSets);
-        _loggedSets = loggedSets.ToList();
+        _loggedSets = [.. loggedSets];
 
         if (_loggedSets.Count == 0)
         {

@@ -109,10 +109,40 @@ public sealed record LoggedSet
     {
         Order = order;
         Repetitions = repetitions;
+
+        if (weight is { Kilograms: <= 0 })
+        {
+            throw new ArgumentOutOfRangeException(nameof(weight), "Weight must be greater than zero.");
+        }
+
         Weight = weight;
+
+        if (duration is { Value: var durationValue } && durationValue <= TimeSpan.Zero)
+        {
+            throw new ArgumentOutOfRangeException(nameof(duration), "Duration must be greater than zero seconds.");
+        }
+
         Duration = duration;
+
+        if (distance is { Meters: <= 0 })
+        {
+            throw new ArgumentOutOfRangeException(nameof(distance), "Distance must be greater than zero meters.");
+        }
+
         Distance = distance;
-        Rpe = Guard.AgainstNull(rpe, nameof(rpe));
+
+        if (!Enum.IsDefined(rpe))
+        {
+            throw new ArgumentOutOfRangeException(nameof(rpe), "RPE must be a valid predefined value.");
+        }
+
+        Rpe = rpe;
+
+        if (heartRate is { BeatsPerMinute: <= 0 })
+        {
+            throw new ArgumentOutOfRangeException(nameof(heartRate), "Heart rate must be greater than zero bpm.");
+        }
+
         HeartRate = heartRate;
         Note = note;
     }
@@ -123,16 +153,40 @@ public sealed record LoggedSet
     public static LoggedSet Create(Order order, RpeScale rpe, int? repetitions = null, Weight? weight = null, Duration? duration = null, Distance? distance = null, HeartRate? heartRate = null, LogNote? note = null)
     {
         Guard.AgainstNull(order, nameof(order));
-        Guard.AgainstNull(rpe, nameof(rpe));
+
+        if (!Enum.IsDefined(rpe))
+        {
+            throw new ArgumentOutOfRangeException(nameof(rpe), "RPE must be a valid predefined value.");
+        }
 
         if (repetitions is <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(repetitions), "Repetitions must be greater than zero when provided.");
         }
 
+        if (weight is { Kilograms: <= 0 })
+        {
+            throw new ArgumentOutOfRangeException(nameof(weight), "Weight must be greater than zero.");
+        }
+
+        if (duration is { Value: var durationValue } && durationValue <= TimeSpan.Zero)
+        {
+            throw new ArgumentOutOfRangeException(nameof(duration), "Duration must be greater than zero seconds.");
+        }
+
+        if (distance is { Meters: <= 0 })
+        {
+            throw new ArgumentOutOfRangeException(nameof(distance), "Distance must be greater than zero meters.");
+        }
+
+        if (heartRate is { BeatsPerMinute: <= 0 })
+        {
+            throw new ArgumentOutOfRangeException(nameof(heartRate), "Heart rate must be greater than zero bpm.");
+        }
+
         if (repetitions is null && weight is null && duration is null && distance is null && heartRate is null)
         {
-            throw new ArgumentException("At least one logged metric must be provided.");
+            throw new ArgumentException("A logged set must contain at least one metric (repetitions, weight, duration, distance, or heart rate).");
         }
 
         return new LoggedSet(order, repetitions, weight, duration, distance, rpe, heartRate, note);
@@ -145,5 +199,20 @@ public sealed record LoggedSet
     {
         Guard.AgainstNull(newOrder, nameof(newOrder));
         return new LoggedSet(newOrder, Repetitions, Weight, Duration, Distance, Rpe, HeartRate, Note);
+    }
+
+    /// <summary>
+    /// Resolves the physiological heart rate zone for this logged set when heart rate is available.
+    /// </summary>
+    public HeartRateZone? GetZone(HeartRateZoneService service, int age, int? restingHr = null, int? maxHr = null)
+    {
+        ArgumentNullException.ThrowIfNull(service);
+
+        if (HeartRate is null)
+        {
+            return null;
+        }
+
+        return service.Calculate(HeartRate, age, restingHr, maxHr);
     }
 }

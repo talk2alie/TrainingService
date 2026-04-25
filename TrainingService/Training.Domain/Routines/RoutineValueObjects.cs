@@ -1,4 +1,5 @@
 using Training.Domain.Common;
+using Training.Domain.Sessions;
 
 namespace Training.Domain.Routines;
 
@@ -99,9 +100,38 @@ public sealed record PlannedSet
     {
         Order = order;
         Repetitions = repetitions;
+
+        if (weight is not null && repetitions is null && duration is null && distance is null)
+        {
+            throw new ArgumentException("Weight cannot be provided without a performance target (repetitions, duration, or distance).", nameof(weight));
+        }
+
+        if (weight is { Kilograms: <= 0 })
+        {
+            throw new ArgumentOutOfRangeException(nameof(weight), "Weight must be greater than zero.");
+        }
+
         Weight = weight;
+
+        if (duration is { Value: var durationValue } && durationValue <= TimeSpan.Zero)
+        {
+            throw new ArgumentOutOfRangeException(nameof(duration), "Duration must be greater than zero seconds.");
+        }
+
         Duration = duration;
+
+        if (distance is { Meters: <= 0 })
+        {
+            throw new ArgumentOutOfRangeException(nameof(distance), "Distance must be greater than zero meters.");
+        }
+
         Distance = distance;
+
+        if (targetRpe.HasValue && !Enum.IsDefined(targetRpe.Value))
+        {
+            throw new ArgumentOutOfRangeException(nameof(targetRpe), "Target RPE must be a valid predefined value.");
+        }
+
         TargetRpe = targetRpe;
     }
 
@@ -115,6 +145,31 @@ public sealed record PlannedSet
         if (repetitions is <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(repetitions), "Repetitions must be greater than zero when provided.");
+        }
+
+        if (weight is { Kilograms: <= 0 })
+        {
+            throw new ArgumentOutOfRangeException(nameof(weight), "Weight must be greater than zero.");
+        }
+
+        if (duration is { Value: var durationValue } && durationValue <= TimeSpan.Zero)
+        {
+            throw new ArgumentOutOfRangeException(nameof(duration), "Duration must be greater than zero seconds.");
+        }
+
+        if (distance is { Meters: <= 0 })
+        {
+            throw new ArgumentOutOfRangeException(nameof(distance), "Distance must be greater than zero meters.");
+        }
+
+        if (targetRpe.HasValue && !Enum.IsDefined(targetRpe.Value))
+        {
+            throw new ArgumentOutOfRangeException(nameof(targetRpe), "Target RPE must be a valid predefined value.");
+        }
+
+        if (weight is not null && repetitions is null && duration is null && distance is null)
+        {
+            throw new ArgumentException("Weight cannot be provided without a performance target (repetitions, duration, or distance).", nameof(weight));
         }
 
         if (repetitions is null && duration is null && distance is null)

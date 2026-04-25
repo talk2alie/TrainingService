@@ -80,31 +80,6 @@ public sealed record Distance
 }
 
 /// <summary>
-/// Represents a rate of perceived exertion value.
-/// </summary>
-public sealed record RpeScale
-{
-    /// <summary>
-    /// Gets the scale value from 1 to 10.
-    /// </summary>
-    public int Value { get; }
-
-    private RpeScale(int value)
-    {
-        Value = value;
-    }
-
-    /// <summary>
-    /// Creates a new <see cref="RpeScale"/>.
-    /// </summary>
-    public static RpeScale Create(int value)
-    {
-        Guard.AgainstOutOfRange(value, 1, 10, nameof(value));
-        return new RpeScale(value);
-    }
-}
-
-/// <summary>
 /// Represents heart rate in beats per minute.
 /// </summary>
 public sealed record HeartRate
@@ -124,7 +99,7 @@ public sealed record HeartRate
     /// </summary>
     public static HeartRate Create(int beatsPerMinute)
     {
-        Guard.AgainstOutOfRange(beatsPerMinute, 20, 260, nameof(beatsPerMinute));
+        Guard.AgainstOutOfRange(beatsPerMinute, 30, 220, nameof(beatsPerMinute));
         return new HeartRate(beatsPerMinute);
     }
 }

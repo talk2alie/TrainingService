@@ -137,4 +137,13 @@ public sealed record LoggedSet
 
         return new LoggedSet(order, repetitions, weight, duration, distance, rpe, heartRate, note);
     }
+
+    /// <summary>
+    /// Returns a copy of this logged set with a different order value.
+    /// </summary>
+    public LoggedSet WithOrder(Order newOrder)
+    {
+        Guard.AgainstNull(newOrder, nameof(newOrder));
+        return new LoggedSet(newOrder, Repetitions, Weight, Duration, Distance, Rpe, HeartRate, Note);
+    }
 }

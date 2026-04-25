@@ -10,14 +10,21 @@ public sealed class SessionExercise
 {
     private readonly List<LoggedSet> _loggedSets;
 
-    private SessionExercise(Guid id, Guid exerciseId, ExerciseName exerciseName, Order order, IEnumerable<LoggedSet>? loggedSets)
+    private SessionExercise(Guid id, Guid exerciseId, ExerciseName exerciseNameSnapshot, Order order, IEnumerable<LoggedSet> loggedSets)
     {
         Id = Guard.AgainstEmptyGuid(id, nameof(id));
         ExerciseId = Guard.AgainstEmptyGuid(exerciseId, nameof(exerciseId));
-        ExerciseName = Guard.AgainstNull(exerciseName, nameof(exerciseName));
+        ExerciseNameSnapshot = Guard.AgainstNull(exerciseNameSnapshot, nameof(exerciseNameSnapshot));
         Order = Guard.AgainstNull(order, nameof(order));
-        _loggedSets = loggedSets?.ToList() ?? [];
+        ArgumentNullException.ThrowIfNull(loggedSets);
+        _loggedSets = loggedSets.ToList();
 
+        if (_loggedSets.Count == 0)
+        {
+            throw new ArgumentException("A session exercise must contain at least one logged set.", nameof(loggedSets));
+        }
+
+        EnsureSequentialSetOrder(_loggedSets);
         EnsureUniqueSetOrder(_loggedSets);
     }
 
@@ -34,7 +41,7 @@ public sealed class SessionExercise
     /// <summary>
     /// Gets the exercise name snapshot.
     /// </summary>
-    public ExerciseName ExerciseName { get; private set; }
+    public ExerciseName ExerciseNameSnapshot { get; private set; }
 
     /// <summary>
     /// Gets the order inside the session.
@@ -49,9 +56,9 @@ public sealed class SessionExercise
     /// <summary>
     /// Creates a new <see cref="SessionExercise"/>.
     /// </summary>
-    internal static SessionExercise Create(Guid exerciseId, ExerciseName exerciseName, Order order, IEnumerable<LoggedSet>? loggedSets = null)
+    internal static SessionExercise Create(Guid exerciseId, ExerciseName exerciseNameSnapshot, Order order, IEnumerable<LoggedSet>? loggedSets = null)
     {
-        return new SessionExercise(Guid.NewGuid(), exerciseId, exerciseName, order, loggedSets);
+        return new SessionExercise(Guid.NewGuid(), exerciseId, exerciseNameSnapshot, order, loggedSets ?? []);
     }
 
     /// <summary>
@@ -59,15 +66,29 @@ public sealed class SessionExercise
     /// </summary>
     internal void UpdateOrder(Order order)
     {
-        Order = Guard.AgainstNull(order, nameof(order));
+        var validatedOrder = Guard.AgainstNull(order, nameof(order));
+
+        if (Order.Value == validatedOrder.Value)
+        {
+            return;
+        }
+
+        Order = validatedOrder;
     }
 
     /// <summary>
     /// Renames the exercise snapshot.
     /// </summary>
-    internal void RenameExercise(ExerciseName exerciseName)
+    internal void RenameExercise(ExerciseName exerciseNameSnapshot)
     {
-        ExerciseName = Guard.AgainstNull(exerciseName, nameof(exerciseName));
+        var validatedName = Guard.AgainstNull(exerciseNameSnapshot, nameof(exerciseNameSnapshot));
+
+        if (ExerciseNameSnapshot.Equals(validatedName))
+        {
+            throw new InvalidOperationException("Session exercise name is already set to the requested value.");
+        }
+
+        ExerciseNameSnapshot = validatedName;
     }
 
     /// <summary>
@@ -77,12 +98,50 @@ public sealed class SessionExercise
     {
         Guard.AgainstNull(loggedSet, nameof(loggedSet));
 
-        if (_loggedSets.Any(x => x.Order == loggedSet.Order))
+        if (loggedSet.Order.Value < 1)
+        {
+            throw new InvalidOperationException("Logged set order must be at least 1.");
+        }
+
+        var expectedOrder = _loggedSets.Count + 1;
+        if (loggedSet.Order.Value != expectedOrder)
+        {
+            throw new InvalidOperationException($"Logged set order must be sequential. Expected order {expectedOrder}.");
+        }
+
+        if (_loggedSets.Any(x => x.Order.Value == loggedSet.Order.Value))
         {
             throw new InvalidOperationException($"A logged set with order {loggedSet.Order.Value} already exists.");
         }
 
         _loggedSets.Add(loggedSet);
+    }
+
+    /// <summary>
+    /// Updates a logged set by order.
+    /// </summary>
+    internal void UpdateLoggedSet(Order setOrder, LoggedSet loggedSet)
+    {
+        Guard.AgainstNull(setOrder, nameof(setOrder));
+        Guard.AgainstNull(loggedSet, nameof(loggedSet));
+
+        if (setOrder.Value != loggedSet.Order.Value)
+        {
+            throw new InvalidOperationException("Logged set order cannot be changed during update.");
+        }
+
+        var index = _loggedSets.FindIndex(x => x.Order.Value == setOrder.Value);
+        if (index < 0)
+        {
+            throw new InvalidOperationException($"A logged set with order {setOrder.Value} was not found.");
+        }
+
+        if (_loggedSets[index].Equals(loggedSet))
+        {
+            throw new InvalidOperationException("Logged set is already set to the requested values.");
+        }
+
+        _loggedSets[index] = loggedSet;
     }
 
     /// <summary>
@@ -92,15 +151,47 @@ public sealed class SessionExercise
     {
         Guard.AgainstNull(order, nameof(order));
 
-        var loggedSet = _loggedSets.SingleOrDefault(x => x.Order == order)
+        if (_loggedSets.Count == 1)
+        {
+            throw new InvalidOperationException("A session exercise must contain at least one logged set.");
+        }
+
+        var loggedSet = _loggedSets.SingleOrDefault(x => x.Order.Value == order.Value)
             ?? throw new InvalidOperationException($"A logged set with order {order.Value} was not found.");
 
         _loggedSets.Remove(loggedSet);
+        NormalizeSetOrder();
+    }
+
+    private void NormalizeSetOrder()
+    {
+        var ordered = _loggedSets.OrderBy(x => x.Order.Value).ToList();
+        _loggedSets.Clear();
+
+        for (var i = 0; i < ordered.Count; i++)
+        {
+            var set = ordered[i];
+            _loggedSets.Add(set.WithOrder(Order.Create(i + 1)));
+        }
+    }
+
+    private static void EnsureSequentialSetOrder(IReadOnlyCollection<LoggedSet> loggedSets)
+    {
+        var expectedOrder = 1;
+        foreach (var loggedSet in loggedSets.OrderBy(x => x.Order.Value))
+        {
+            if (loggedSet.Order.Value != expectedOrder)
+            {
+                throw new ArgumentException("Logged set order must be sequential, starting at 1.", nameof(loggedSets));
+            }
+
+            expectedOrder++;
+        }
     }
 
     private static void EnsureUniqueSetOrder(IReadOnlyCollection<LoggedSet> loggedSets)
     {
-        if (loggedSets.Count != loggedSets.Select(x => x.Order).Distinct().Count())
+        if (loggedSets.Count != loggedSets.Select(x => x.Order.Value).Distinct().Count())
         {
             throw new ArgumentException("Logged set order values must be unique.", nameof(loggedSets));
         }

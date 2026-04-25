@@ -1,6 +1,4 @@
-using Training.Domain.Exercises;
-
-namespace Training.Domain.ValueObjects;
+namespace Training.Domain.Exercises;
 
 /// <summary>
 /// Represents immutable image binary data.

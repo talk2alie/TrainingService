@@ -1,5 +1,4 @@
 using Training.Domain.Common;
-using Training.Domain.ValueObjects;
 using System.Collections.ObjectModel;
 
 namespace Training.Domain.Exercises;

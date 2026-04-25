@@ -1,6 +1,4 @@
-using Training.Domain.Common;
-
-namespace Training.Domain.ValueObjects;
+namespace Training.Domain.Common;
 
 /// <summary>
 /// Represents a weight value in kilograms.

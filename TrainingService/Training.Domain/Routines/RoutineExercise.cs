@@ -1,5 +1,5 @@
 using Training.Domain.Common;
-using Training.Domain.ValueObjects;
+using Training.Domain.Exercises;
 
 namespace Training.Domain.Routines;
 
@@ -16,9 +16,12 @@ public sealed class RoutineExercise
         ExerciseId = Guard.AgainstEmptyGuid(exerciseId, nameof(exerciseId));
         ExerciseName = Guard.AgainstNull(exerciseName, nameof(exerciseName));
         Order = Guard.AgainstNull(order, nameof(order));
-        _plannedSets = plannedSets?.ToList() ?? [];
+        ArgumentNullException.ThrowIfNull(plannedSets);
+        _plannedSets = [.. plannedSets];
 
+        EnsureAtLeastOnePlannedSet(_plannedSets);
         EnsureUniqueSetOrder(_plannedSets);
+        EnsureSequentialSetOrder(_plannedSets);
     }
 
     /// <summary>
@@ -49,7 +52,7 @@ public sealed class RoutineExercise
     /// <summary>
     /// Creates a new <see cref="RoutineExercise"/>.
     /// </summary>
-    internal static RoutineExercise Create(Guid exerciseId, ExerciseName exerciseName, Order order, IEnumerable<PlannedSet>? plannedSets = null)
+    internal static RoutineExercise Create(Guid exerciseId, ExerciseName exerciseName, Order order, IEnumerable<PlannedSet> plannedSets)
     {
         return new RoutineExercise(Guid.NewGuid(), exerciseId, exerciseName, order, plannedSets);
     }
@@ -59,7 +62,14 @@ public sealed class RoutineExercise
     /// </summary>
     internal void UpdateOrder(Order order)
     {
-        Order = Guard.AgainstNull(order, nameof(order));
+        var validatedOrder = Guard.AgainstNull(order, nameof(order));
+
+        if (Order.Value == validatedOrder.Value)
+        {
+            return;
+        }
+
+        Order = validatedOrder;
     }
 
     /// <summary>
@@ -67,7 +77,14 @@ public sealed class RoutineExercise
     /// </summary>
     internal void RenameExercise(ExerciseName exerciseName)
     {
-        ExerciseName = Guard.AgainstNull(exerciseName, nameof(exerciseName));
+        var validatedName = Guard.AgainstNull(exerciseName, nameof(exerciseName));
+
+        if (ExerciseName.Equals(validatedName))
+        {
+            throw new InvalidOperationException("Routine exercise name is already set to the requested value.");
+        }
+
+        ExerciseName = validatedName;
     }
 
     /// <summary>
@@ -77,7 +94,13 @@ public sealed class RoutineExercise
     {
         Guard.AgainstNull(plannedSet, nameof(plannedSet));
 
-        if (_plannedSets.Any(x => x.Order == plannedSet.Order))
+        var expectedOrder = _plannedSets.Count + 1;
+        if (plannedSet.Order.Value != expectedOrder)
+        {
+            throw new InvalidOperationException($"Planned set order must be sequential. Expected order {expectedOrder}.");
+        }
+
+        if (_plannedSets.Any(x => x.Order.Value == plannedSet.Order.Value))
         {
             throw new InvalidOperationException($"A planned set with order {plannedSet.Order.Value} already exists.");
         }
@@ -92,15 +115,55 @@ public sealed class RoutineExercise
     {
         Guard.AgainstNull(order, nameof(order));
 
-        var plannedSet = _plannedSets.SingleOrDefault(x => x.Order == order)
+        var plannedSet = _plannedSets.SingleOrDefault(x => x.Order.Value == order.Value)
             ?? throw new InvalidOperationException($"A planned set with order {order.Value} was not found.");
 
+        if (_plannedSets.Count == 1)
+        {
+            throw new InvalidOperationException("A routine exercise must contain at least one planned set.");
+        }
+
         _plannedSets.Remove(plannedSet);
+        NormalizeSetOrder();
+    }
+
+    private void NormalizeSetOrder()
+    {
+        var ordered = _plannedSets.OrderBy(x => x.Order.Value).ToList();
+        _plannedSets.Clear();
+
+        for (var i = 0; i < ordered.Count; i++)
+        {
+            var set = ordered[i];
+            _plannedSets.Add(set.WithOrder(Order.Create(i + 1)));
+        }
+    }
+
+    private static void EnsureAtLeastOnePlannedSet(IReadOnlyCollection<PlannedSet> plannedSets)
+    {
+        if (plannedSets.Count == 0)
+        {
+            throw new ArgumentException("At least one planned set must be provided.", nameof(plannedSets));
+        }
+    }
+
+    private static void EnsureSequentialSetOrder(IReadOnlyCollection<PlannedSet> plannedSets)
+    {
+        var expectedOrder = 1;
+        foreach (var plannedSet in plannedSets.OrderBy(x => x.Order.Value))
+        {
+            if (plannedSet.Order.Value != expectedOrder)
+            {
+                throw new ArgumentException("Planned set order must be sequential, starting at 1.", nameof(plannedSets));
+            }
+
+            expectedOrder++;
+        }
     }
 
     private static void EnsureUniqueSetOrder(IReadOnlyCollection<PlannedSet> plannedSets)
     {
-        if (plannedSets.Count != plannedSets.Select(x => x.Order).Distinct().Count())
+        if (plannedSets.Count != plannedSets.Select(x => x.Order.Value).Distinct().Count())
         {
             throw new ArgumentException("Planned set order values must be unique.", nameof(plannedSets));
         }

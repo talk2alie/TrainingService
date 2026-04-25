@@ -1,6 +1,64 @@
 using Training.Domain.Common;
 
-namespace Training.Domain.ValueObjects;
+namespace Training.Domain.Sessions;
+
+/// <summary>
+/// Represents a note attached to a session.
+/// </summary>
+public sealed record SessionNote
+{
+    /// <summary>
+    /// Gets the note value.
+    /// </summary>
+    public string Value { get; }
+
+    private SessionNote(string value)
+    {
+        Value = value;
+    }
+
+    /// <summary>
+    /// Creates a new <see cref="SessionNote"/>.
+    /// </summary>
+    public static SessionNote Create(string value)
+    {
+        var normalized = Guard.AgainstNullOrWhiteSpace(value, nameof(value));
+        Guard.AgainstTooLong(normalized, 2000, nameof(value));
+        return new SessionNote(normalized);
+    }
+
+    /// <inheritdoc />
+    public override string ToString() => Value;
+}
+
+/// <summary>
+/// Represents a note for a logged set.
+/// </summary>
+public sealed record LogNote
+{
+    /// <summary>
+    /// Gets the note value.
+    /// </summary>
+    public string Value { get; }
+
+    private LogNote(string value)
+    {
+        Value = value;
+    }
+
+    /// <summary>
+    /// Creates a new <see cref="LogNote"/>.
+    /// </summary>
+    public static LogNote Create(string value)
+    {
+        var normalized = Guard.AgainstNullOrWhiteSpace(value, nameof(value));
+        Guard.AgainstTooLong(normalized, 1000, nameof(value));
+        return new LogNote(normalized);
+    }
+
+    /// <inheritdoc />
+    public override string ToString() => Value;
+}
 
 /// <summary>
 /// Represents an actual logged set captured during a session.

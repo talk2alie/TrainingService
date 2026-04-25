@@ -1,6 +1,64 @@
 using Training.Domain.Common;
 
-namespace Training.Domain.ValueObjects;
+namespace Training.Domain.Routines;
+
+/// <summary>
+/// Represents a routine name.
+/// </summary>
+public sealed record RoutineName
+{
+    /// <summary>
+    /// Gets the normalized routine name.
+    /// </summary>
+    public string Value { get; }
+
+    private RoutineName(string value)
+    {
+        Value = value;
+    }
+
+    /// <summary>
+    /// Creates a new <see cref="RoutineName"/>.
+    /// </summary>
+    public static RoutineName Create(string value)
+    {
+        var normalized = Guard.AgainstNullOrWhiteSpace(value, nameof(value));
+        Guard.AgainstTooLong(normalized, 120, nameof(value));
+        return new RoutineName(normalized);
+    }
+
+    /// <inheritdoc />
+    public override string ToString() => Value;
+}
+
+/// <summary>
+/// Represents a routine description.
+/// </summary>
+public sealed record RoutineDescription
+{
+    /// <summary>
+    /// Gets the description value.
+    /// </summary>
+    public string Value { get; }
+
+    private RoutineDescription(string value)
+    {
+        Value = value;
+    }
+
+    /// <summary>
+    /// Creates a new <see cref="RoutineDescription"/>.
+    /// </summary>
+    public static RoutineDescription Create(string value)
+    {
+        var normalized = Guard.AgainstNullOrWhiteSpace(value, nameof(value));
+        Guard.AgainstTooLong(normalized, 2000, nameof(value));
+        return new RoutineDescription(normalized);
+    }
+
+    /// <inheritdoc />
+    public override string ToString() => Value;
+}
 
 /// <summary>
 /// Represents a planned set definition for a routine exercise.
@@ -65,5 +123,14 @@ public sealed record PlannedSet
         }
 
         return new PlannedSet(order, repetitions, weight, duration, distance, targetRpe);
+    }
+
+    /// <summary>
+    /// Returns a copy of this planned set with a different order value.
+    /// </summary>
+    public PlannedSet WithOrder(Order newOrder)
+    {
+        Guard.AgainstNull(newOrder, nameof(newOrder));
+        return new PlannedSet(newOrder, Repetitions, Weight, Duration, Distance, TargetRpe);
     }
 }

@@ -5,6 +5,8 @@
 - Prefer registering custom middleware via extension methods in Program.cs for consistency (e.g., CorrelationId like GlobalException/Serilog setups).
 - Ensure physical directory names align with namespaces to avoid mismatches in Visual Studio.
 - Review code against the domain model after namespace correction; maintain alignment with the intended domain model during follow-up edits.
+- Use domain-meaningful namespaces over generic folders like ValueObjects/Entities/Aggregates, placing types in their bounded context namespaces (e.g., RoutineExercise in Routines).
+- User is fine with multiple small types in one file when grouping is coherent and makes domain sense.
 
 ## API Contract Guidelines
 - Use Request/Response suffixes for API/application contract types instead of the Dto suffix.

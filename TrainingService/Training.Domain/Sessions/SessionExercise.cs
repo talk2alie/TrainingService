@@ -1,5 +1,5 @@
 using Training.Domain.Common;
-using Training.Domain.ValueObjects;
+using Training.Domain.Exercises;
 
 namespace Training.Domain.Sessions;
 

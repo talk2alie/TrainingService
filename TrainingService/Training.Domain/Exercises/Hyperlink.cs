@@ -1,6 +1,6 @@
 using Training.Domain.Common;
 
-namespace Training.Domain.ValueObjects;
+namespace Training.Domain.Exercises;
 
 /// <summary>
 /// Represents an absolute HTTP/HTTPS hyperlink.

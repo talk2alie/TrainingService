@@ -2,14 +2,14 @@ using Training.Domain.Common;
 using Training.Domain.Exercises;
 using Training.Domain.Sessions;
 
-namespace Training.Api.Tests;
+namespace Training.Domain.Tests;
 
 public sealed class SessionAggregateTests
 {
     [Fact]
     public void Start_WithValidInput_CreatesSession()
     {
-        var session = Session.Start(Guid.NewGuid());
+        var session = Session.Start(Guid.NewGuid(), null, DateTimeOffset.UtcNow, new List<SessionExercise>());
         session.AddNote(SessionNote.Create("Push day"));
 
         Assert.NotEqual(Guid.Empty, session.Id);
@@ -21,7 +21,7 @@ public sealed class SessionAggregateTests
     [Fact]
     public void AddExercise_WithDuplicateExerciseId_ThrowsInvalidOperationException()
     {
-        var session = Session.Start(Guid.NewGuid());
+        var session = Session.Start(Guid.NewGuid(), null, DateTimeOffset.UtcNow, new List<SessionExercise>());
         var exerciseId = Guid.NewGuid();
         session.AddExercise(exerciseId, ExerciseName.Create("Bench Press"), [CreateLoggedSet(1)]);
 
@@ -74,7 +74,7 @@ public sealed class SessionAggregateTests
     [Fact]
     public void Complete_WithNonUtcTimestamp_ThrowsArgumentException()
     {
-        var session = Session.Start(Guid.NewGuid());
+        var session = Session.Start(Guid.NewGuid(), null, DateTimeOffset.UtcNow, new List<SessionExercise>());
         session.AddExercise(Guid.NewGuid(), ExerciseName.Create("Bench Press"), [CreateLoggedSet(1)]);
         var nonUtc = new DateTimeOffset(2026, 1, 1, 9, 0, 0, TimeSpan.FromHours(2));
 
@@ -86,7 +86,7 @@ public sealed class SessionAggregateTests
     [Fact]
     public void Complete_WithTimestampOutsideAllowedWindow_ThrowsInvalidOperationException()
     {
-        var session = Session.Start(Guid.NewGuid());
+        var session = Session.Start(Guid.NewGuid(), null, DateTimeOffset.UtcNow, new List<SessionExercise>());
         session.AddExercise(Guid.NewGuid(), ExerciseName.Create("Bench Press"), [CreateLoggedSet(1)]);
 
         var ex = Assert.Throws<InvalidOperationException>(() =>
@@ -98,7 +98,7 @@ public sealed class SessionAggregateTests
     [Fact]
     public void Complete_WhenEarlierThanStart_ThrowsInvalidOperationException()
     {
-        var session = Session.Start(Guid.NewGuid());
+        var session = Session.Start(Guid.NewGuid(), null, DateTimeOffset.UtcNow, new List<SessionExercise>());
         session.AddExercise(Guid.NewGuid(), ExerciseName.Create("Bench Press"), [CreateLoggedSet(1)]);
 
         var ex = Assert.Throws<InvalidOperationException>(() =>
@@ -110,7 +110,7 @@ public sealed class SessionAggregateTests
     [Fact]
     public void CompletedSession_BlocksFurtherMutations()
     {
-        var session = Session.Start(Guid.NewGuid());
+        var session = Session.Start(Guid.NewGuid(), null, DateTimeOffset.UtcNow, new List<SessionExercise>());
         session.AddExercise(Guid.NewGuid(), ExerciseName.Create("Bench Press"), [CreateLoggedSet(1)]);
         session.EndSession(DateTimeOffset.UtcNow);
 
@@ -122,7 +122,7 @@ public sealed class SessionAggregateTests
 
     private static Session CreateSessionWithSingleExercise()
     {
-        var session = Session.Start(Guid.NewGuid());
+        var session = Session.Start(Guid.NewGuid(), null, DateTimeOffset.UtcNow, []);
         session.AddExercise(Guid.NewGuid(), ExerciseName.Create("Bench Press"), [CreateLoggedSet(1)]);
         return session;
     }

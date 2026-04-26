@@ -1,6 +1,6 @@
 using Training.Domain.Exercises;
 
-namespace Training.Api.Tests;
+namespace Training.Domain.Tests;
 
 public sealed class ExerciseAggregateTests
 {

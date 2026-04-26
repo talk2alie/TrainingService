@@ -1,5 +1,5 @@
-using Training.Domain.Common;
 using System.Collections.ObjectModel;
+using Training.Domain.Common;
 
 namespace Training.Domain.Exercises;
 
@@ -11,6 +11,7 @@ public sealed class Exercise
     private readonly ReadOnlyCollection<MuscleGroup> _secondaryMuscleGroups = null!;
     private readonly ReadOnlyCollection<EquipmentType> _requiredEquipment = null!;
     private readonly ReadOnlyCollection<ExerciseName> _aliases = null!;
+    private readonly List<IDomainEvent> _domainEvents = [];
 
     private Exercise(
         Guid id,
@@ -122,6 +123,11 @@ public sealed class Exercise
     public ReadOnlyCollection<ExerciseName> Aliases => _aliases;
 
     /// <summary>
+    /// Gets the domain events
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
+
+    /// <summary>
     /// Creates a new <see cref="Exercise"/>.
     /// </summary>
     public static Exercise Create(
@@ -137,7 +143,7 @@ public sealed class Exercise
         IEnumerable<ExerciseName>? aliases = null,
         IEnumerable<MuscleGroup>? secondaryMuscleGroups = null)
     {
-        return new Exercise(
+        var exercise = new Exercise(
             Guid.NewGuid(),
             name,
             description,
@@ -150,6 +156,11 @@ public sealed class Exercise
             requiredEquipment,
             aliases,
             secondaryMuscleGroups);
+        exercise.Raise(new ExerciseCreated(
+            exercise.Id,
+            exercise.Name,
+            DateTimeOffset.UtcNow));
+        return exercise;
     }
 
     /// <inheritdoc />
@@ -221,4 +232,6 @@ public sealed class Exercise
             throw new ArgumentException(message, paramName);
         }
     }
+
+    private void Raise(IDomainEvent @event) => _domainEvents.Add(@event);
 }

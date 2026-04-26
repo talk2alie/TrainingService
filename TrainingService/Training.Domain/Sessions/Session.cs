@@ -9,6 +9,7 @@ namespace Training.Domain.Sessions;
 public sealed class Session
 {
     private readonly List<SessionExercise> _exercises = null!;
+    private readonly List<IDomainEvent> _domainEvents = [];
 
     private Session(
         Guid id,
@@ -134,9 +135,29 @@ public sealed class Session
     /// <summary>
     /// Starts a new <see cref="Session"/> at the current UTC time.
     /// </summary>
-    public static Session Start(Guid ownerUserId, Guid? routineId = null)
+    public static Session Start(
+        Guid ownerUserId,
+        Guid? routineId,
+        DateTimeOffset startedAtUtc,
+        IEnumerable<SessionExercise> exercises,
+        Weight? bodyWeight = null,
+        SessionNote? note = null)
     {
-        return Create(ownerUserId, DateTimeOffset.UtcNow, routineId);
+        var session = new Session(
+            Guid.NewGuid(),
+            ownerUserId,
+            routineId,
+            startedAtUtc,
+            exercises,
+            bodyWeight,
+            null,
+            note);
+        session.Raise(new SessionStarted(
+            session.Id,
+            session.OwnerUserId,
+            session.StartedAtUtc,
+            DateTimeOffset.UtcNow));
+        return session;
     }
 
     /// <summary>
@@ -309,6 +330,7 @@ public sealed class Session
         }
 
         EndedAtUtc = endedAtUtc;
+        Raise(new SessionEnded(Id, OwnerUserId, endedAtUtc, DateTimeOffset.UtcNow));
     }
 
     private void EnsureNotEnded()
@@ -420,4 +442,7 @@ public sealed class Session
             throw new ArgumentException("Session exercise order values must be unique.", nameof(exercises));
         }
     }
+
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
+    private void Raise(IDomainEvent @event) => _domainEvents.Add(@event);
 }

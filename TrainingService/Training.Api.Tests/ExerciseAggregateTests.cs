@@ -26,6 +26,7 @@ public sealed class ExerciseAggregateTests
                 ExerciseDescription.Create("Barbell press movement."),
                 DifficultyLevel.Intermediate,
                 ExerciseCategory.Strength,
+                MovementPattern.Push,
                 MuscleGroup.Chest,
                 Hyperlink.Create("https://example.com/video"),
                 ImageData.Create([1, 2, 3], ImageFormat.Png),
@@ -43,6 +44,7 @@ public sealed class ExerciseAggregateTests
                 ExerciseDescription.Create("Barbell press movement."),
                 DifficultyLevel.Intermediate,
                 ExerciseCategory.Strength,
+                MovementPattern.Push,
                 MuscleGroup.Chest,
                 Hyperlink.Create("https://example.com/video"),
                 ImageData.Create([1, 2, 3], ImageFormat.Png),
@@ -62,6 +64,7 @@ public sealed class ExerciseAggregateTests
                 ExerciseDescription.Create("Barbell press movement."),
                 DifficultyLevel.Intermediate,
                 ExerciseCategory.Strength,
+                MovementPattern.Push,
                 MuscleGroup.Chest,
                 Hyperlink.Create("https://example.com/video"),
                 ImageData.Create([1, 2, 3], ImageFormat.Png),
@@ -80,6 +83,7 @@ public sealed class ExerciseAggregateTests
                 ExerciseDescription.Create("Barbell press movement."),
                 DifficultyLevel.Intermediate,
                 ExerciseCategory.Strength,
+                MovementPattern.Push,
                 MuscleGroup.Chest,
                 Hyperlink.Create("https://example.com/video"),
                 ImageData.Create([1, 2, 3], ImageFormat.Png),
@@ -98,6 +102,7 @@ public sealed class ExerciseAggregateTests
                 ExerciseDescription.Create("Barbell press movement."),
                 DifficultyLevel.Intermediate,
                 ExerciseCategory.Strength,
+                MovementPattern.Push,
                 MuscleGroup.Chest,
                 Hyperlink.Create("https://example.com/video"),
                 ImageData.Create([1, 2, 3], ImageFormat.Png),
@@ -114,11 +119,10 @@ public sealed class ExerciseAggregateTests
             ExerciseDescription.Create("Barbell press movement."),
             DifficultyLevel.Intermediate,
             ExerciseCategory.Strength,
+            MovementPattern.Push,
             MuscleGroup.Chest,
             Hyperlink.Create("https://example.com/video"),
             ImageData.Create([1, 2, 3], ImageFormat.Png),
-            [EquipmentType.Barbell],
-            aliases: [ExerciseName.Create("Barbell Bench Press")],
-            secondaryMuscleGroups: [MuscleGroup.Shoulders, MuscleGroup.Triceps]);
+            [EquipmentType.Barbell]);
     }
 }

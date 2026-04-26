@@ -99,7 +99,9 @@ public sealed record HeartRate
     /// </summary>
     public static HeartRate Create(int beatsPerMinute)
     {
-        Guard.AgainstOutOfRange(beatsPerMinute, 30, 220, nameof(beatsPerMinute));
+        const int MinimumInclusiveHeartRate = 30;
+        const int MaximumInclusiveHeartRate = 220;
+        Guard.AgainstOutOfRange(beatsPerMinute, MinimumInclusiveHeartRate, MaximumInclusiveHeartRate, nameof(beatsPerMinute));
         return new HeartRate(beatsPerMinute);
     }
 }

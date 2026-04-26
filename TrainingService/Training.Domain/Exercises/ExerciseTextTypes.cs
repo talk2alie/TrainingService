@@ -23,7 +23,8 @@ public sealed record ExerciseName
     public static ExerciseName Create(string value)
     {
         var normalized = Guard.AgainstNullOrWhiteSpace(value, nameof(value));
-        Guard.AgainstTooLong(normalized, 120, nameof(value));
+        const int maxLength = 120;
+        Guard.AgainstTooLong(normalized, maxLength, nameof(value));
         return new ExerciseName(normalized);
     }
 
@@ -71,7 +72,8 @@ public sealed record MuscleGroupName
     public static MuscleGroupName Create(string value)
     {
         var normalized = Guard.AgainstNullOrWhiteSpace(value, nameof(value));
-        Guard.AgainstTooLong(normalized, 120, nameof(value));
+        const int maxLength = 120;
+        Guard.AgainstTooLong(normalized, maxLength, nameof(value));
         return new MuscleGroupName(normalized);
     }
 
@@ -100,7 +102,8 @@ public sealed record ExerciseDescription
     public static ExerciseDescription Create(string value)
     {
         var normalized = Guard.AgainstNullOrWhiteSpace(value, nameof(value));
-        Guard.AgainstTooLong(normalized, 2000, nameof(value));
+        const int maxLength = 2000;
+        Guard.AgainstTooLong(normalized, maxLength, nameof(value));
         return new ExerciseDescription(normalized);
     }
 
@@ -129,7 +132,8 @@ public sealed record MuscleGroupDescription
     public static MuscleGroupDescription Create(string value)
     {
         var normalized = Guard.AgainstNullOrWhiteSpace(value, nameof(value));
-        Guard.AgainstTooLong(normalized, 2000, nameof(value));
+        const int maxLength = 2000;
+        Guard.AgainstTooLong(normalized, maxLength, nameof(value));
         return new MuscleGroupDescription(normalized);
     }
 

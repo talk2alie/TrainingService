@@ -8,7 +8,7 @@ namespace Training.Domain.Routines;
 /// </summary>
 public sealed class RoutineExercise
 {
-    private readonly List<PlannedSet> _plannedSets;
+    private readonly List<PlannedSet> _plannedSets = null!;
 
     private RoutineExercise(Guid id, Guid exerciseId, ExerciseName exerciseName, Order order, IEnumerable<PlannedSet>? plannedSets)
     {
@@ -24,6 +24,8 @@ public sealed class RoutineExercise
         EnsureSequentialSetOrder(_plannedSets);
     }
 
+    private RoutineExercise() { }
+
     /// <summary>
     /// Gets the entity identifier.
     /// </summary>
@@ -37,12 +39,12 @@ public sealed class RoutineExercise
     /// <summary>
     /// Gets the exercise name snapshot.
     /// </summary>
-    public ExerciseName ExerciseName { get; private set; }
+    public ExerciseName ExerciseName { get; private set; } = null!;
 
     /// <summary>
     /// Gets the order inside the routine.
     /// </summary>
-    public Order Order { get; private set; }
+    public Order Order { get; private set; } = null!;
 
     /// <summary>
     /// Gets the planned sets for the exercise.

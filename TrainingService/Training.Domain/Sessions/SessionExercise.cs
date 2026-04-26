@@ -8,7 +8,7 @@ namespace Training.Domain.Sessions;
 /// </summary>
 public sealed class SessionExercise
 {
-    private readonly List<LoggedSet> _loggedSets;
+    private readonly List<LoggedSet> _loggedSets = null!;
 
     private SessionExercise(Guid id, Guid exerciseId, ExerciseName exerciseNameSnapshot, Order order, IEnumerable<LoggedSet> loggedSets)
     {
@@ -28,6 +28,8 @@ public sealed class SessionExercise
         EnsureUniqueSetOrder(_loggedSets);
     }
 
+    private SessionExercise() { }
+
     /// <summary>
     /// Gets the entity identifier.
     /// </summary>
@@ -41,12 +43,12 @@ public sealed class SessionExercise
     /// <summary>
     /// Gets the exercise name snapshot.
     /// </summary>
-    public ExerciseName ExerciseNameSnapshot { get; private set; }
+    public ExerciseName ExerciseNameSnapshot { get; private set; } = null!;
 
     /// <summary>
     /// Gets the order inside the session.
     /// </summary>
-    public Order Order { get; private set; }
+    public Order Order { get; private set; } = null!;
 
     /// <summary>
     /// Gets the logged sets.

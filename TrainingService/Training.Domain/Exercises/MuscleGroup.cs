@@ -12,84 +12,109 @@ public sealed class MuscleGroup : IEquatable<MuscleGroup>
     /// </summary>
     public static readonly MuscleGroup Chest = new(
         MuscleGroupName.Create("Chest"),
-        MuscleGroupDescription.Create("Pectoral muscles responsible for horizontal pressing and adduction movements."));
+        MuscleGroupDescription.Create(
+            "Pectoral muscles responsible for horizontal pressing, pushing strength, and arm adduction."
+        ));
 
     /// <summary>
     /// Back muscle group.
     /// </summary>
     public static readonly MuscleGroup Back = new(
         MuscleGroupName.Create("Back"),
-        MuscleGroupDescription.Create("Latissimus dorsi and upper back musculature responsible for pulling movements."));
+        MuscleGroupDescription.Create(
+            "Latissimus dorsi, traps, and upper-back musculature responsible for vertical and horizontal pulling."
+        ));
 
     /// <summary>
     /// Shoulder muscle group.
     /// </summary>
     public static readonly MuscleGroup Shoulders = new(
         MuscleGroupName.Create("Shoulders"),
-        MuscleGroupDescription.Create("Deltoid musculature responsible for overhead and lateral arm movement."));
+        MuscleGroupDescription.Create(
+            "Deltoid muscles responsible for overhead pressing, arm elevation, and shoulder stabilization."
+        ));
 
     /// <summary>
     /// Biceps muscle group.
     /// </summary>
     public static readonly MuscleGroup Biceps = new(
         MuscleGroupName.Create("Biceps"),
-        MuscleGroupDescription.Create("Elbow flexor muscle group on the anterior upper arm."));
+        MuscleGroupDescription.Create(
+            "Anterior upper-arm flexors responsible for elbow flexion and forearm supination."
+        ));
 
     /// <summary>
     /// Triceps muscle group.
     /// </summary>
     public static readonly MuscleGroup Triceps = new(
         MuscleGroupName.Create("Triceps"),
-        MuscleGroupDescription.Create("Elbow extensor muscle group on the posterior upper arm."));
+        MuscleGroupDescription.Create(
+            "Posterior upper-arm extensors responsible for elbow extension and pressing lockout strength."
+        ));
 
     /// <summary>
     /// Forearm muscle group.
     /// </summary>
     public static readonly MuscleGroup Forearms = new(
         MuscleGroupName.Create("Forearms"),
-        MuscleGroupDescription.Create("Forearm flexor and extensor musculature supporting grip and wrist control."));
+        MuscleGroupDescription.Create(
+            "Forearm flexors and extensors responsible for grip strength, wrist control, and stabilization."
+        ));
 
     /// <summary>
     /// Quadriceps muscle group.
     /// </summary>
     public static readonly MuscleGroup Quadriceps = new(
         MuscleGroupName.Create("Quadriceps"),
-        MuscleGroupDescription.Create("Anterior thigh muscle group primarily responsible for knee extension."));
+        MuscleGroupDescription.Create(
+            "Anterior thigh muscles responsible for knee extension and primary force production in squatting."
+        ));
 
     /// <summary>
     /// Hamstrings muscle group.
     /// </summary>
     public static readonly MuscleGroup Hamstrings = new(
         MuscleGroupName.Create("Hamstrings"),
-        MuscleGroupDescription.Create("Posterior thigh muscle group responsible for knee flexion and hip extension."));
+        MuscleGroupDescription.Create(
+            "Posterior thigh muscles responsible for knee flexion, hip extension, and sprinting power."
+        ));
 
     /// <summary>
     /// Glute muscle group.
     /// </summary>
     public static readonly MuscleGroup Glutes = new(
         MuscleGroupName.Create("Glutes"),
-        MuscleGroupDescription.Create("Hip extensor and stabilizer muscle group including gluteus maximus, medius, and minimus."));
+        MuscleGroupDescription.Create(
+            "Primary hip extensors and stabilizers responsible for power, posture, and lower-body strength."
+        ));
 
     /// <summary>
     /// Calf muscle group.
     /// </summary>
     public static readonly MuscleGroup Calves = new(
         MuscleGroupName.Create("Calves"),
-        MuscleGroupDescription.Create("Lower leg muscle group responsible for plantar flexion."));
+        MuscleGroupDescription.Create(
+            "Lower-leg muscles responsible for plantar flexion, ankle stability, and gait propulsion."
+        ));
 
     /// <summary>
     /// Core muscle group.
     /// </summary>
     public static readonly MuscleGroup Core = new(
         MuscleGroupName.Create("Core"),
-        MuscleGroupDescription.Create("Abdominal and trunk stabilizer muscle group."));
+        MuscleGroupDescription.Create(
+            "Abdominal and trunk musculature responsible for bracing, rotation control, and spinal stability."
+        ));
 
     /// <summary>
     /// Full body muscle group.
     /// </summary>
     public static readonly MuscleGroup FullBody = new(
         MuscleGroupName.Create("Full Body"),
-        MuscleGroupDescription.Create("Composite muscle group used when an exercise targets multiple primary regions."));
+        MuscleGroupDescription.Create(
+            "Composite classification for exercises that simultaneously target multiple primary muscle groups."
+        ));
+
 
     private static readonly IReadOnlyList<MuscleGroup> _all =
     [

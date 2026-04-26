@@ -8,9 +8,9 @@ namespace Training.Domain.Exercises;
 /// </summary>
 public sealed class Exercise
 {
-    private readonly ReadOnlyCollection<MuscleGroup> _secondaryMuscleGroups;
-    private readonly ReadOnlyCollection<EquipmentType> _requiredEquipment;
-    private readonly ReadOnlyCollection<ExerciseName> _aliases;
+    private readonly ReadOnlyCollection<MuscleGroup> _secondaryMuscleGroups = null!;
+    private readonly ReadOnlyCollection<EquipmentType> _requiredEquipment = null!;
+    private readonly ReadOnlyCollection<ExerciseName> _aliases = null!;
 
     private Exercise(
         Guid id,
@@ -18,6 +18,7 @@ public sealed class Exercise
         ExerciseDescription description,
         DifficultyLevel difficultyLevel,
         ExerciseCategory category,
+        MovementPattern movementPattern,
         Hyperlink instructionVideoUrl,
         ImageData thumbnail,
         MuscleGroup primaryMuscleGroup,
@@ -30,6 +31,7 @@ public sealed class Exercise
         Description = Guard.AgainstNull(description, nameof(description));
         DifficultyLevel = difficultyLevel;
         Category = category;
+        MovementPattern = movementPattern;
         InstructionVideoUrl = Guard.AgainstNull(instructionVideoUrl, nameof(instructionVideoUrl));
         EnsureInstructionVideoUrlFormat(InstructionVideoUrl, nameof(instructionVideoUrl));
         Thumbnail = Guard.AgainstNull(thumbnail, nameof(thumbnail));
@@ -57,6 +59,8 @@ public sealed class Exercise
         EnsureMuscleGroupConsistency(PrimaryMuscleGroup, _secondaryMuscleGroups);
     }
 
+    private Exercise() { }
+
     /// <summary>
     /// Gets the exercise identifier.
     /// </summary>
@@ -65,12 +69,12 @@ public sealed class Exercise
     /// <summary>
     /// Gets the exercise name.
     /// </summary>
-    public ExerciseName Name { get; }
+    public ExerciseName Name { get; private set; } = null!;
 
     /// <summary>
     /// Gets the exercise description.
     /// </summary>
-    public ExerciseDescription Description { get; }
+    public ExerciseDescription Description { get; private set; } = null!;
 
     /// <summary>
     /// Gets the exercise difficulty level.
@@ -83,19 +87,24 @@ public sealed class Exercise
     public ExerciseCategory Category { get; }
 
     /// <summary>
+    /// Gets the biomechanical movement pattern of the exercise.
+    /// </summary>
+    public MovementPattern MovementPattern { get; }
+
+    /// <summary>
     /// Gets the instruction video URL.
     /// </summary>
-    public Hyperlink InstructionVideoUrl { get; }
+    public Hyperlink InstructionVideoUrl { get; private set; } = null!;
 
     /// <summary>
     /// Gets the exercise thumbnail image.
     /// </summary>
-    public ImageData Thumbnail { get; }
+    public ImageData Thumbnail { get; private set; } = null!;
 
     /// <summary>
     /// Gets the primary targeted muscle group.
     /// </summary>
-    public MuscleGroup PrimaryMuscleGroup { get; }
+    public MuscleGroup PrimaryMuscleGroup { get; private set; } = null!;
 
     /// <summary>
     /// Gets the secondary targeted muscle groups.
@@ -120,6 +129,7 @@ public sealed class Exercise
         ExerciseDescription description,
         DifficultyLevel difficultyLevel,
         ExerciseCategory category,
+        MovementPattern movementPattern,
         MuscleGroup primaryMuscleGroup,
         Hyperlink instructionVideoUrl,
         ImageData thumbnail,
@@ -133,6 +143,7 @@ public sealed class Exercise
             description,
             difficultyLevel,
             category,
+            movementPattern,
             instructionVideoUrl,
             thumbnail,
             primaryMuscleGroup,

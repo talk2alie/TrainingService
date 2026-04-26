@@ -8,7 +8,7 @@ namespace Training.Domain.Sessions;
 /// </summary>
 public sealed class Session
 {
-    private readonly List<SessionExercise> _exercises;
+    private readonly List<SessionExercise> _exercises = null!;
 
     private Session(
         Guid id,
@@ -62,6 +62,8 @@ public sealed class Session
         EnsureSequentialExerciseOrder(_exercises);
         NormalizeOrders();
     }
+
+    private Session() { }
 
     /// <summary>
     /// Gets the session identifier.

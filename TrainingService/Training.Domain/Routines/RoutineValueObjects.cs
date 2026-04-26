@@ -24,7 +24,8 @@ public sealed record RoutineName
     public static RoutineName Create(string value)
     {
         var normalized = Guard.AgainstNullOrWhiteSpace(value, nameof(value));
-        Guard.AgainstTooLong(normalized, 120, nameof(value));
+        const int maxLength = 120;
+        Guard.AgainstTooLong(normalized, maxLength, nameof(value));
         return new RoutineName(normalized);
     }
 
@@ -53,7 +54,8 @@ public sealed record RoutineDescription
     public static RoutineDescription Create(string value)
     {
         var normalized = Guard.AgainstNullOrWhiteSpace(value, nameof(value));
-        Guard.AgainstTooLong(normalized, 2000, nameof(value));
+        const int maxLength = 2000;
+        Guard.AgainstTooLong(normalized, maxLength, nameof(value));
         return new RoutineDescription(normalized);
     }
 

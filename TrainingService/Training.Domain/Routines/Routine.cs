@@ -8,7 +8,7 @@ namespace Training.Domain.Routines;
 /// </summary>
 public sealed class Routine
 {
-    private readonly List<RoutineExercise> _exercises;
+    private readonly List<RoutineExercise> _exercises = null!;
 
     private Routine(
         Guid id,
@@ -30,6 +30,12 @@ public sealed class Routine
         CreatedAtUtc = createdAtUtc;
         Name = Guard.AgainstNull(name, nameof(name));
         Description = Guard.AgainstNull(description, nameof(description));
+
+        if (!Enum.IsDefined(difficultyLevel))
+        {
+            throw new ArgumentOutOfRangeException(nameof(difficultyLevel));
+        }
+
         DifficultyLevel = difficultyLevel;
 
         ArgumentNullException.ThrowIfNull(exercises);
@@ -43,6 +49,8 @@ public sealed class Routine
         EnsureSequentialExerciseOrder(_exercises);
         NormalizeOrders();
     }
+
+    private Routine() { }
 
     /// <summary>
     /// Gets the routine identifier.
@@ -62,12 +70,12 @@ public sealed class Routine
     /// <summary>
     /// Gets the routine name.
     /// </summary>
-    public RoutineName Name { get; private set; }
+    public RoutineName Name { get; private set; } = null!;
 
     /// <summary>
     /// Gets the routine description.
     /// </summary>
-    public RoutineDescription Description { get; private set; }
+    public RoutineDescription Description { get; private set; } = null!;
 
     /// <summary>
     /// Gets the routine planned difficulty level.

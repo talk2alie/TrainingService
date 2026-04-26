@@ -1,37 +1,61 @@
-using Training.Domain.Common;
-
 namespace Training.Domain.Sessions;
 
 /// <summary>
-/// Represents subjective rate of perceived exertion.
+/// Represents Rate of Perceived Exertion (RPE) for strength training,
+/// expressed as proximity to failure. Higher values indicate fewer
+/// reps left in reserve (RIR) at the end of the set.
 /// </summary>
 public enum RpeScale
 {
-    Moderate = 6,
-    SomewhatHard = 7,
-    Hard = 8,
-    VeryHard = 9,
-    MaxEffort = 10
+    /// <summary>
+    /// RPE 6 — Approximately 4 reps left in reserve (RIR).
+    /// Light effort; far from failure; warm-up or technique work.
+    /// </summary>
+    Rpe6 = 6,
+
+    /// <summary>
+    /// RPE 7 — Approximately 3 reps left in reserve (RIR).
+    /// Moderate effort; sustainable; good for volume accumulation.
+    /// </summary>
+    Rpe7 = 7,
+
+    /// <summary>
+    /// RPE 8 — Approximately 2 reps left in reserve (RIR).
+    /// Hard effort; challenging but repeatable; primary working sets.
+    /// </summary>
+    Rpe8 = 8,
+
+    /// <summary>
+    /// RPE 9 — Approximately 1 rep left in reserve (RIR).
+    /// Very hard effort; near failure; used for top sets or testing.
+    /// </summary>
+    Rpe9 = 9,
+
+    /// <summary>
+    /// RPE 10 — Zero reps left in reserve (RIR).
+    /// Maximal effort; failure or very close to it; cannot repeat.
+    /// </summary>
+    Rpe10 = 10
 }
 
-/// <summary>
-/// Provides helpers for <see cref="RpeScale"/>.
-/// </summary>
+
 public static class RpeScaleExtensions
 {
     /// <summary>
-    /// Gets a human-readable description of the RPE value.
+    /// Gets a human-readable description of the RPE value,
+    /// based on reps left in reserve (RIR).
     /// </summary>
     public static string Description(this RpeScale rpe) => rpe switch
     {
-        RpeScale.Moderate => "Moderate effort",
-        RpeScale.SomewhatHard => "Somewhat hard effort",
-        RpeScale.Hard => "Hard effort",
-        RpeScale.VeryHard => "Very hard effort",
-        RpeScale.MaxEffort => "Maximum effort",
+        RpeScale.Rpe6 => "RPE 6 — ~4 reps in reserve (light, comfortable).",
+        RpeScale.Rpe7 => "RPE 7 — ~3 reps in reserve (moderate, sustainable).",
+        RpeScale.Rpe8 => "RPE 8 — ~2 reps in reserve (hard, working set).",
+        RpeScale.Rpe9 => "RPE 9 — ~1 rep in reserve (very hard, near failure).",
+        RpeScale.Rpe10 => "RPE 10 — 0 reps in reserve (max effort).",
         _ => throw new ArgumentOutOfRangeException(nameof(rpe))
     };
 }
+
 
 /// <summary>
 /// Represents physiology-based heart rate zones.

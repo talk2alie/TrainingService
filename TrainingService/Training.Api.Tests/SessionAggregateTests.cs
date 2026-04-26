@@ -129,6 +129,6 @@ public sealed class SessionAggregateTests
 
     private static LoggedSet CreateLoggedSet(int order)
     {
-        return LoggedSet.Create(Order.Create(order), RpeScale.Hard, repetitions: 10, weight: Weight.Create(60));
+        return LoggedSet.Create(Order.Create(order), RpeScale.Rpe8, repetitions: 10, weight: Weight.Create(60));
     }
 }

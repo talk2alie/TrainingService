@@ -1,10 +1,6 @@
-using Training.Domain.Exercises;
 using Training.Domain.Common;
+using Training.Domain.Exercises;
 using Training.Domain.Routines;
-using System;
-using System.Collections.Generic;
-using Xunit;
-using System.Linq;
 
 namespace Training.Domain.Tests;
 

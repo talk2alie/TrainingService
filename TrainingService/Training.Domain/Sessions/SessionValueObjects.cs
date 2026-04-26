@@ -204,7 +204,7 @@ public sealed record LoggedSet
     /// <summary>
     /// Resolves the physiological heart rate zone for this logged set when heart rate is available.
     /// </summary>
-    public HeartRateZone? GetZone(HeartRateZoneService service, int age, int? restingHr = null, int? maxHr = null)
+    public HeartRateZone? GetZone(IHeartRateZoneService service, int age, int? restingHr = null, int? maxHr = null)
     {
         ArgumentNullException.ThrowIfNull(service);
 

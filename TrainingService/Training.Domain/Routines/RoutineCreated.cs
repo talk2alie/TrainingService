@@ -1,4 +1,3 @@
-using System;
 using Training.Domain.Common;
 
 namespace Training.Domain.Routines;

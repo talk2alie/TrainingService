@@ -1,15 +1,15 @@
 
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Serilog;
-using Microsoft.AspNetCore.Mvc;
-using Training.Application;
-using Training.Domain;
-using Training.Infrastructure;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Training.Api.Middleware;
 using Training.Api.Swagger;
+using Training.Application;
+using Training.Domain;
+using Training.Infrastructure;
 
 namespace Training.Api;
 

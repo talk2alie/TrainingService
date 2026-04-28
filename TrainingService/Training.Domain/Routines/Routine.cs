@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Training.Domain.Common;
 using Training.Domain.Exercises;
 

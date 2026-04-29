@@ -6,7 +6,7 @@ namespace Training.Domain.Exercises;
 /// <summary>
 /// Represents an exercise catalog entry aggregate root.
 /// </summary>
-public sealed class Exercise
+public sealed class Exercise : IAggregateRoot
 {
     private readonly ReadOnlyCollection<MuscleGroup> _secondaryMuscleGroups = null!;
     private readonly ReadOnlyCollection<EquipmentType> _requiredEquipment = null!;

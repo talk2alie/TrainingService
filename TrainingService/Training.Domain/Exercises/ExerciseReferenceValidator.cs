@@ -6,12 +6,22 @@ public sealed class ExerciseReferenceValidator : IExerciseReferenceValidator
 
     public ExerciseReferenceValidator(IEnumerable<Guid> existingExerciseIds)
     {
-        _existingExerciseIds = new HashSet<Guid>(existingExerciseIds);
+        _existingExerciseIds = [.. existingExerciseIds];
     }
 
     public void EnsureExerciseExists(Guid exerciseId)
     {
         if (!_existingExerciseIds.Contains(exerciseId))
-            throw new InvalidOperationException($"Exercise {exerciseId} does not exist.");
+        {
+            throw new ExerciseNotFoundException(exerciseId);
+        }
+    }
+
+    public void EnsureExercisesExist(IEnumerable<Guid> exerciseIds)
+    {
+        foreach (var id in exerciseIds)
+        {
+            EnsureExerciseExists(id);
+        }
     }
 }

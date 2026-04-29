@@ -46,7 +46,7 @@ public sealed class RoutineAggregateTests
             []
         );
         var exerciseId = routine.AddExercise(Guid.NewGuid(), ExerciseName.Create("Bench Press"), new List<PlannedSet> { CreatePlannedSet(1) });
-        var ex = Assert.Throws<InvalidOperationException>(() => routine.RemoveExercise(routine.Exercises[0].Id));
+        var ex = Assert.Throws<InvalidRoutineOperationException>(() => routine.RemoveExercise(routine.Exercises[0].Id));
         Assert.Equal("A routine must contain at least one exercise.", ex.Message);
     }
 
@@ -60,7 +60,7 @@ public sealed class RoutineAggregateTests
             DifficultyLevel.Intermediate,
             []
         );
-        var ex = Assert.Throws<InvalidOperationException>(() => routine.Archive());
+        var ex = Assert.Throws<InvalidRoutineOperationException>(() => routine.Archive());
         Assert.Equal("Cannot archive a routine with no exercises.", ex.Message);
     }
 
@@ -169,7 +169,7 @@ public sealed class RoutineAggregateTests
         );
         var exerciseId = routine.AddExercise(Guid.NewGuid(), ExerciseName.Create("Bench Press"), new List<PlannedSet> { CreatePlannedSet(1) });
         var duplicateExerciseId = routine.Exercises[0].ExerciseId;
-        var ex = Assert.Throws<InvalidOperationException>(() => routine.AddExercise(duplicateExerciseId, ExerciseName.Create("Bench Press Variation"), new List<PlannedSet> { CreatePlannedSet(1) }));
+        var ex = Assert.Throws<InvalidRoutineOperationException>(() => routine.AddExercise(duplicateExerciseId, ExerciseName.Create("Bench Press Variation"), new List<PlannedSet> { CreatePlannedSet(1) }));
         Assert.Equal("The routine already contains this exercise.", ex.Message);
     }
 
@@ -213,7 +213,7 @@ public sealed class RoutineAggregateTests
         );
         var exerciseId = routine.AddExercise(Guid.NewGuid(), ExerciseName.Create("Bench Press"), new List<PlannedSet> { CreatePlannedSet(1) });
         var routineExerciseId = routine.Exercises[0].Id;
-        var ex = Assert.Throws<InvalidOperationException>(() => routine.RemovePlannedSet(routineExerciseId, Order.Create(2)));
+        var ex = Assert.Throws<InvalidRoutineOperationException>(() => routine.RemovePlannedSet(routineExerciseId, Order.Create(2)));
         Assert.Equal("The planned set was not found for the routine exercise.", ex.Message);
     }
 

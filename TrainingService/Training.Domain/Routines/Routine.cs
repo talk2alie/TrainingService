@@ -10,6 +10,72 @@ public sealed class Routine
 {
     private readonly List<RoutineExercise> _exercises = null!;
     private readonly List<IDomainEvent> _domainEvents = [];
+    /// <summary>
+    /// Ensures all aggregate-level invariants are satisfied.
+    /// </summary>
+    private void Revalidate()
+    {
+        // No two RoutineExercise items may have the same RoutineExercise.Id
+        var routineExerciseIds = new HashSet<Guid>();
+        foreach (var e in _exercises)
+        {
+            if (!routineExerciseIds.Add(e.Id))
+            {
+                throw new RoutineInvariantViolationException("Duplicate RoutineExercise.Id detected.");
+            }
+        }
+
+        // No two RoutineExercise items may have the same ExerciseId
+        var exerciseIds = new HashSet<Guid>();
+        foreach (var e in _exercises)
+        {
+            if (!exerciseIds.Add(e.ExerciseId))
+            {
+                throw new RoutineInvariantViolationException("Duplicate ExerciseId detected.");
+            }
+        }
+
+        // No two RoutineExercise items may have the same ExerciseName
+        var exerciseNames = new HashSet<string>();
+        foreach (var e in _exercises)
+        {
+            if (!exerciseNames.Add(e.ExerciseName.ToString()))
+            {
+                throw new RoutineInvariantViolationException("Duplicate ExerciseName detected.");
+            }
+        }
+
+        // No two RoutineExercise items may have the same Order
+        var orders = new HashSet<int>();
+        foreach (var e in _exercises)
+        {
+            if (!orders.Add(e.Order.Value))
+            {
+                throw new RoutineInvariantViolationException("Duplicate exercise order detected.");
+            }
+        }
+
+        // Orders must always be sequential starting at 1
+        var orderValues = _exercises.Select(e => e.Order.Value).OrderBy(x => x).ToArray();
+        for (int i = 0; i < orderValues.Length; i++)
+        {
+            if (orderValues[i] != i + 1)
+            {
+                throw new RoutineInvariantViolationException("Exercise orders must be sequential starting from 1.");
+            }
+        }
+    }
+
+    /// <summary>
+    /// Normalizes the order values of all RoutineExercise items to be sequential starting at 1.
+    /// </summary>
+    private void NormalizeOrders()
+    {
+        for (int i = 0; i < _exercises.Count; i++)
+        {
+            _exercises[i].SetOrder(Order.Create(i + 1));
+        }
+    }
 
     private Routine(
         Guid id,
@@ -25,7 +91,7 @@ public sealed class Routine
 
         if (createdAtUtc.Offset != TimeSpan.Zero)
         {
-            throw new ArgumentException("Creation time must be in UTC.", nameof(createdAtUtc));
+            throw new RoutineInvariantViolationException("Creation time must be in UTC.", nameof(createdAtUtc));
         }
 
         CreatedAtUtc = createdAtUtc;
@@ -34,7 +100,7 @@ public sealed class Routine
 
         if (!Enum.IsDefined(difficultyLevel))
         {
-            throw new ArgumentOutOfRangeException(nameof(difficultyLevel));
+            throw new RoutineInvariantViolationException("Difficulty level is not defined.", nameof(difficultyLevel));
         }
 
         DifficultyLevel = difficultyLevel;
@@ -42,12 +108,8 @@ public sealed class Routine
         ArgumentNullException.ThrowIfNull(exercises);
         _exercises = [.. exercises];
 
-        EnsureRoutineExerciseIdsAreUnique(_exercises);
-        EnsureRoutineExerciseInvariants(_exercises);
-        EnsureNoDuplicateExercises(_exercises);
-        EnsureUniqueExerciseOrder(_exercises);
-        EnsureSequentialExerciseOrder(_exercises);
         NormalizeOrders();
+        Revalidate();
     }
 
     private Routine() { }
@@ -135,6 +197,7 @@ public sealed class Routine
     {
         EnsureNotArchived();
         Name = Guard.AgainstNull(name, nameof(name));
+        Revalidate();
     }
 
     /// <summary>
@@ -144,6 +207,7 @@ public sealed class Routine
     {
         EnsureNotArchived();
         Description = Guard.AgainstNull(description, nameof(description));
+        Revalidate();
     }
 
     /// <summary>
@@ -153,6 +217,7 @@ public sealed class Routine
     {
         EnsureNotArchived();
         DifficultyLevel = difficultyLevel;
+        Revalidate();
     }
 
     /// <summary>
@@ -162,14 +227,19 @@ public sealed class Routine
     {
         EnsureNotArchived();
         if (_exercises.Count == 0)
-            throw new InvalidOperationException("Cannot archive a routine with no exercises.");
+        {
+            throw new InvalidRoutineOperationException("Cannot archive a routine with no exercises.");
+        }
 
         var nowUtc = DateTimeOffset.UtcNow;
         if (nowUtc < CreatedAtUtc)
-            throw new InvalidOperationException("Archive time cannot be earlier than creation time.");
+        {
+            throw new RoutineInvariantViolationException("Archive time cannot be earlier than creation time.");
+        }
 
         ArchivedAtUtc = nowUtc;
         Raise(new RoutineArchived(Id, nowUtc));
+        Revalidate();
     }
 
     /// <summary>
@@ -178,20 +248,12 @@ public sealed class Routine
     public Guid AddExercise(Guid exerciseId, ExerciseName exerciseName, IEnumerable<PlannedSet> plannedSets)
     {
         EnsureNotArchived();
-        Guard.AgainstEmptyGuid(exerciseId, nameof(exerciseId));
-        Guard.AgainstNull(exerciseName, nameof(exerciseName));
-        ArgumentNullException.ThrowIfNull(plannedSets);
-        var plannedSetsList = plannedSets.ToList();
-        EnsureValidPlannedSets(plannedSetsList, nameof(plannedSets));
 
-        if (_exercises.Any(x => x.ExerciseId == exerciseId))
-        {
-            throw new InvalidOperationException("The routine already contains this exercise.");
-        }
-
-        var nextOrder = Order.Create(_exercises.Count + 1);
-        var routineExercise = RoutineExercise.Create(exerciseId, exerciseName, nextOrder, plannedSetsList);
+        var nextOrder = _exercises.Count == 0 ? 1 : _exercises.Max(e => e.Order.Value) + 1;
+        var routineExercise = RoutineExercise.Create(exerciseId, exerciseName, Order.Create(nextOrder), plannedSets);
         _exercises.Add(routineExercise);
+        NormalizeOrders();
+        Revalidate();
         return routineExercise.Id;
     }
 
@@ -201,42 +263,45 @@ public sealed class Routine
     public void RemoveExercise(Guid routineExerciseId)
     {
         EnsureNotArchived();
-        Guard.AgainstEmptyGuid(routineExerciseId, nameof(routineExerciseId));
+
         if (_exercises.Count == 1)
         {
-            throw new InvalidOperationException("A routine must contain at least one exercise.");
+            throw new InvalidRoutineOperationException("A routine must contain at least one exercise.");
         }
-        var exercise = GetExerciseById(routineExerciseId);
+
+        var exercise = _exercises.FirstOrDefault(e => e.Id == routineExerciseId);
+        if (exercise is null)
+        {
+            throw new InvalidRoutineOperationException("Routine exercise not found.");
+        }
+
         _exercises.Remove(exercise);
         NormalizeOrders();
+        Revalidate();
     }
 
     /// <summary>
     /// Reorders a routine exercise.
     /// </summary>
-    public void MoveExercise(Guid routineExerciseId, Order targetOrder)
+    public void MoveExercise(Guid routineExerciseId, Order newOrder)
     {
         EnsureNotArchived();
-        Guard.AgainstEmptyGuid(routineExerciseId, nameof(routineExerciseId));
-        Guard.AgainstNull(targetOrder, nameof(targetOrder));
-        if (targetOrder.Value > _exercises.Count)
+
+        var exercise = _exercises.FirstOrDefault(e => e.Id == routineExerciseId);
+        if (exercise is null)
         {
-            throw new InvalidOperationException("Target order exceeds exercise count.");
+            throw new InvalidRoutineOperationException("Routine exercise not found.");
         }
-        var exercise = GetExerciseById(routineExerciseId);
-        if (exercise.Order.Value == targetOrder.Value)
+
+        if (newOrder.Value < 1 || newOrder.Value > _exercises.Count)
         {
-            throw new InvalidOperationException("Routine exercise is already at the requested target order.");
+            throw new InvalidRoutineOperationException("Invalid order value.");
         }
-        var sorted = _exercises.OrderBy(x => x.Order.Value).ToList();
-        sorted.Remove(exercise);
-        sorted.Insert(targetOrder.Value - 1, exercise);
-        for (int i = 0; i < sorted.Count; i++)
-        {
-            sorted[i].UpdateOrder(Order.Create(i + 1));
-        }
-        _exercises.Clear();
-        _exercises.AddRange(sorted);
+
+        _exercises.Remove(exercise);
+        _exercises.Insert(newOrder.Value - 1, exercise);
+        NormalizeOrders();
+        Revalidate();
     }
 
     /// <summary>
@@ -248,11 +313,15 @@ public sealed class Routine
         Guard.AgainstEmptyGuid(routineExerciseId, nameof(routineExerciseId));
         Guard.AgainstNull(exerciseName, nameof(exerciseName));
 
-        var exercise = GetExerciseById(routineExerciseId);
+        var exercise = _exercises.FirstOrDefault(x => x.Id == routineExerciseId);
+        if (exercise is null)
+        {
+            throw new InvalidRoutineOperationException("Routine exercise not found.");
+        }
 
         if (exercise.ExerciseName.Equals(exerciseName))
         {
-            throw new InvalidOperationException("Routine exercise name is already set to the requested value.");
+            throw new InvalidRoutineOperationException("Routine exercise name is already set to the requested value.");
         }
 
         exercise.RenameExercise(exerciseName);
@@ -267,11 +336,15 @@ public sealed class Routine
         Guard.AgainstEmptyGuid(routineExerciseId, nameof(routineExerciseId));
         Guard.AgainstNull(plannedSet, nameof(plannedSet));
 
-        var exercise = GetExerciseById(routineExerciseId);
+        var exercise = _exercises.FirstOrDefault(x => x.Id == routineExerciseId);
+        if (exercise is null)
+        {
+            throw new InvalidRoutineOperationException("Routine exercise not found.");
+        }
 
         if (exercise.PlannedSets.Any(x => x.Order.Value == plannedSet.Order.Value))
         {
-            throw new InvalidOperationException($"Routine exercise already contains a planned set with order {plannedSet.Order.Value}.");
+            throw new InvalidRoutineOperationException($"Routine exercise already contains a planned set with order {plannedSet.Order.Value}.");
         }
 
         exercise.AddPlannedSet(plannedSet);
@@ -286,116 +359,31 @@ public sealed class Routine
         Guard.AgainstEmptyGuid(routineExerciseId, nameof(routineExerciseId));
         Guard.AgainstNull(setOrder, nameof(setOrder));
 
-        var exercise = GetExerciseById(routineExerciseId);
+        var exercise = _exercises.FirstOrDefault(x => x.Id == routineExerciseId);
+        if (exercise is null)
+        {
+            throw new InvalidRoutineOperationException("Routine exercise not found.");
+        }
 
         if (exercise.PlannedSets.All(x => x.Order != setOrder))
         {
-            throw new InvalidOperationException("The planned set was not found for the routine exercise.");
+            throw new InvalidRoutineOperationException("The planned set was not found for the routine exercise.");
         }
 
         exercise.RemovePlannedSet(setOrder);
     }
 
-    private RoutineExercise GetExerciseById(Guid routineExerciseId)
-    {
-        var exercise = _exercises.SingleOrDefault(x => x.Id == routineExerciseId);
-        if (exercise is null)
-            throw new InvalidOperationException("Routine exercise not found.");
-        return exercise;
-    }
-
     private void EnsureNotArchived()
     {
         if (IsArchived)
-            throw new InvalidOperationException("Cannot modify an archived routine.");
+        {
+            throw new InvalidRoutineOperationException("Cannot modify an archived routine.");
+        }
     }
 
-    private static void EnsureValidPlannedSets(IReadOnlyCollection<PlannedSet> plannedSets, string paramName)
+
+    private void Raise(IDomainEvent @event)
     {
-        if (plannedSets.Count == 0)
-        {
-            throw new ArgumentException("At least one planned set must be provided.", paramName);
-        }
-
-        if (plannedSets.Count != plannedSets.Select(x => x.Order).Distinct().Count())
-        {
-            throw new ArgumentException("Planned set order values must be unique.", paramName);
-        }
-
-        var expectedOrder = 1;
-        foreach (var plannedSet in plannedSets.OrderBy(x => x.Order.Value))
-        {
-            if (plannedSet.Order.Value != expectedOrder)
-            {
-                throw new ArgumentException("Planned set order must be sequential, starting at 1.", paramName);
-            }
-
-            expectedOrder++;
-        }
+        _domainEvents.Add(@event);
     }
-
-    // Invariant and normalization helpers (must be present and private)
-    private void EnsureRoutineExerciseIdsAreUnique(List<RoutineExercise> exercises)
-    {
-        if (exercises.Count == 0) return;
-        var ids = new HashSet<Guid>();
-        foreach (var ex in exercises)
-        {
-            if (!ids.Add(ex.ExerciseId))
-                throw new ArgumentException("Duplicate exercise id detected.");
-        }
-    }
-
-    private void EnsureRoutineExerciseInvariants(List<RoutineExercise> exercises)
-    {
-        if (exercises.Count == 0) return;
-        // Add any additional invariants here as needed
-    }
-
-    private void EnsureNoDuplicateExercises(List<RoutineExercise> exercises)
-    {
-        if (exercises.Count == 0) return;
-        var names = new HashSet<string>();
-        foreach (var ex in exercises)
-        {
-            if (!names.Add(ex.ExerciseName.ToString()))
-                throw new ArgumentException("Duplicate exercise name detected.");
-        }
-    }
-
-    private void EnsureUniqueExerciseOrder(List<RoutineExercise> exercises)
-    {
-        if (exercises.Count == 0) return;
-        var orders = new HashSet<int>();
-        foreach (var ex in exercises)
-        {
-            if (!orders.Add(ex.Order.Value))
-                throw new ArgumentException("Duplicate exercise order detected.");
-        }
-    }
-
-    private void EnsureSequentialExerciseOrder(List<RoutineExercise> exercises)
-    {
-        if (exercises.Count == 0) return;
-        var sorted = exercises.OrderBy(x => x.Order.Value).ToList();
-        for (int i = 0; i < sorted.Count; i++)
-        {
-            if (sorted[i].Order.Value != i + 1)
-                throw new ArgumentException("Exercise orders must be sequential starting from 1.");
-        }
-    }
-
-    private void NormalizeOrders()
-    {
-        if (_exercises.Count == 0) return;
-        var sorted = _exercises.OrderBy(x => x.Order.Value).ToList();
-        for (int i = 0; i < sorted.Count; i++)
-        {
-            sorted[i].UpdateOrder(Order.Create(i + 1));
-        }
-        _exercises.Clear();
-        _exercises.AddRange(sorted);
-    }
-
-    private void Raise(IDomainEvent @event) => _domainEvents.Add(@event);
 }

@@ -8,6 +8,9 @@
 - Use domain-meaningful namespaces over generic folders like ValueObjects/Entities/Aggregates, placing types in their bounded context namespaces (e.g., RoutineExercise in Routines).
 - User is fine with multiple small types in one file when grouping is coherent and makes domain sense.
 
+## Code Style Guidelines
+- Always use block statements (curly braces) in if statements and loops, even for single-line bodies.
+
 ## API Contract Guidelines
 - Use Request/Response suffixes for API/application contract types instead of the Dto suffix.
 

@@ -21,7 +21,7 @@ public class AggregatePersistenceValidatorTests
     {
         var routine = Routine.Create(Guid.NewGuid(), RoutineName.Create("Test"), RoutineDescription.Create("Desc"), DifficultyLevel.Beginner, []);
         var validator = new AggregatePersistenceValidator();
-        Assert.Throws<InvalidOperationException>(() => validator.EnsureRoutineIsPersistable(routine));
+        Assert.Throws<AggregateNotPersistableException>(() => validator.EnsureRoutineIsPersistable(routine));
     }
 
     [Fact]
@@ -38,6 +38,6 @@ public class AggregatePersistenceValidatorTests
     {
         var session = Session.Start(Guid.NewGuid(), null, DateTimeOffset.UtcNow, []);
         var validator = new AggregatePersistenceValidator();
-        Assert.Throws<InvalidOperationException>(() => validator.EnsureSessionIsPersistable(session));
+        Assert.Throws<AggregateNotPersistableException>(() => validator.EnsureSessionIsPersistable(session));
     }
 }

@@ -16,6 +16,6 @@ public class ExerciseReferenceValidatorTests
     public void EnsureExerciseExists_NotExisting_Throws()
     {
         var validator = new ExerciseReferenceValidator(new[] { Guid.NewGuid() });
-        Assert.Throws<InvalidOperationException>(() => validator.EnsureExerciseExists(Guid.NewGuid()));
+        Assert.Throws<ExerciseNotFoundException>(() => validator.EnsureExerciseExists(Guid.NewGuid()));
     }
 }

@@ -6,7 +6,7 @@ namespace Training.Domain.Sessions;
 /// <summary>
 /// Represents a performed training session aggregate root.
 /// </summary>
-public sealed class Session
+public sealed class Session : IAggregateRoot
 {
     private readonly List<SessionExercise> _exercises = null!;
     private readonly List<IDomainEvent> _domainEvents = [];

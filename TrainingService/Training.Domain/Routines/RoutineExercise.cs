@@ -45,6 +45,13 @@ public sealed class RoutineExercise
     /// Gets the order inside the routine.
     /// </summary>
     public Order Order { get; private set; } = null!;
+    /// <summary>
+    /// Sets the order of the routine exercise (for aggregate normalization only).
+    /// </summary>
+    internal void SetOrder(Order order)
+    {
+        Order = Guard.AgainstNull(order, nameof(order));
+    }
 
     /// <summary>
     /// Gets the planned sets for the exercise.

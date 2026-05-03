@@ -63,6 +63,11 @@ public sealed class SessionExercise
         return new SessionExercise(Guid.NewGuid(), exerciseId, exerciseNameSnapshot, order, loggedSets ?? []);
     }
 
+    public static SessionExercise Rehydrate(Guid id, Guid exerciseId, ExerciseName exerciseNameSnapshot, Order order, IEnumerable<LoggedSet> loggedSets)
+    {
+        return new SessionExercise(id, exerciseId, exerciseNameSnapshot, order, loggedSets);
+    }
+
     /// <summary>
     /// Updates the exercise order in the session.
     /// </summary>

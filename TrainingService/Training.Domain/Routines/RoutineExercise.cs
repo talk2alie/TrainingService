@@ -66,6 +66,11 @@ public sealed class RoutineExercise
         return new RoutineExercise(Guid.NewGuid(), exerciseId, exerciseName, order, plannedSets);
     }
 
+    public static RoutineExercise Rehydrate(Guid id, Guid exerciseId, ExerciseName exerciseName, Order order, IEnumerable<PlannedSet> plannedSets)
+    {
+        return new RoutineExercise(id, exerciseId, exerciseName, order, plannedSets);
+    }
+
     /// <summary>
     /// Updates the exercise order in the routine.
     /// </summary>

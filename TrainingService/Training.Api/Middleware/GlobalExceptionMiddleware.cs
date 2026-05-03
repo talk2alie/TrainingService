@@ -1,5 +1,7 @@
 namespace Training.Api.Middleware;
 
+using Microsoft.EntityFrameworkCore;
+
 public sealed class GlobalExceptionMiddleware(RequestDelegate next, ILogger<GlobalExceptionMiddleware> logger)
 {
     private readonly RequestDelegate _next = next;
@@ -13,6 +15,15 @@ public sealed class GlobalExceptionMiddleware(RequestDelegate next, ILogger<Glob
         }
         catch (Exception ex)
         {
+            var statusCode = ex switch
+            {
+                ArgumentException => StatusCodes.Status400BadRequest,
+                InvalidOperationException => StatusCodes.Status409Conflict,
+                DbUpdateConcurrencyException => StatusCodes.Status409Conflict,
+                UnauthorizedAccessException => StatusCodes.Status401Unauthorized,
+                _ => StatusCodes.Status500InternalServerError
+            };
+
             _logger.LogError(ex,
                 "Unhandled exception for {Method} {Path}. CorrelationId: {CorrelationId}",
                 context.Request.Method,
@@ -24,12 +35,12 @@ public sealed class GlobalExceptionMiddleware(RequestDelegate next, ILogger<Glob
                 throw;
             }
 
-            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            context.Response.StatusCode = statusCode;
             context.Response.ContentType = "application/json";
 
             var error = new ErrorEnvelope(
-                Code: "internal_server_error",
-                Message: "An unexpected error occurred.",
+                Code: statusCode == StatusCodes.Status500InternalServerError ? "internal_server_error" : "domain_error",
+                Message: statusCode == StatusCodes.Status500InternalServerError ? "An unexpected error occurred." : ex.Message,
                 CorrelationId: context.TraceIdentifier);
 
             await context.Response.WriteAsJsonAsync(error, cancellationToken: context.RequestAborted);

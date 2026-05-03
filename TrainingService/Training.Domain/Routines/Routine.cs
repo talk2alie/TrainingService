@@ -6,7 +6,7 @@ namespace Training.Domain.Routines;
 /// <summary>
 /// Represents a reusable training routine aggregate root.
 /// </summary>
-public sealed class Routine
+public sealed class Routine : IHasDomainEvents
 {
     private readonly List<RoutineExercise> _exercises = null!;
     private readonly List<IDomainEvent> _domainEvents = [];
@@ -190,6 +190,33 @@ public sealed class Routine
         return routine;
     }
 
+    public static Routine Rehydrate(
+        Guid id,
+        Guid ownerUserId,
+        DateTimeOffset createdAtUtc,
+        RoutineName name,
+        RoutineDescription description,
+        DifficultyLevel difficultyLevel,
+        IEnumerable<RoutineExercise> exercises,
+        DateTimeOffset? archivedAtUtc)
+    {
+        var routine = new Routine(
+            id,
+            ownerUserId,
+            createdAtUtc,
+            name,
+            description,
+            difficultyLevel,
+            exercises);
+
+        if (archivedAtUtc.HasValue)
+        {
+            routine.ArchivedAtUtc = archivedAtUtc.Value;
+        }
+
+        return routine;
+    }
+
     /// <summary>
     /// Renames the routine.
     /// </summary>
@@ -325,6 +352,7 @@ public sealed class Routine
         }
 
         exercise.RenameExercise(exerciseName);
+        Revalidate();
     }
 
     /// <summary>
@@ -348,6 +376,7 @@ public sealed class Routine
         }
 
         exercise.AddPlannedSet(plannedSet);
+        Revalidate();
     }
 
     /// <summary>
@@ -371,6 +400,7 @@ public sealed class Routine
         }
 
         exercise.RemovePlannedSet(setOrder);
+        Revalidate();
     }
 
     private void EnsureNotArchived()
@@ -381,6 +411,11 @@ public sealed class Routine
         }
     }
 
+
+    public void ClearDomainEvents()
+    {
+        _domainEvents.Clear();
+    }
 
     private void Raise(IDomainEvent @event)
     {

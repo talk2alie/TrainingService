@@ -6,7 +6,7 @@ namespace Training.Domain.Exercises;
 /// <summary>
 /// Represents an exercise catalog entry aggregate root.
 /// </summary>
-public sealed class Exercise : IAggregateRoot
+public sealed class Exercise : IAggregateRoot, IHasDomainEvents
 {
     private readonly ReadOnlyCollection<MuscleGroup> _secondaryMuscleGroups = null!;
     private readonly ReadOnlyCollection<EquipmentType> _requiredEquipment = null!;
@@ -163,6 +163,35 @@ public sealed class Exercise : IAggregateRoot
         return exercise;
     }
 
+    public static Exercise Rehydrate(
+        Guid id,
+        ExerciseName name,
+        ExerciseDescription description,
+        DifficultyLevel difficultyLevel,
+        ExerciseCategory category,
+        MovementPattern movementPattern,
+        MuscleGroup primaryMuscleGroup,
+        Hyperlink instructionVideoUrl,
+        ImageData thumbnail,
+        IEnumerable<EquipmentType> requiredEquipment,
+        IEnumerable<ExerciseName>? aliases = null,
+        IEnumerable<MuscleGroup>? secondaryMuscleGroups = null)
+    {
+        return new Exercise(
+            id,
+            name,
+            description,
+            difficultyLevel,
+            category,
+            movementPattern,
+            instructionVideoUrl,
+            thumbnail,
+            primaryMuscleGroup,
+            requiredEquipment,
+            aliases,
+            secondaryMuscleGroups);
+    }
+
     /// <inheritdoc />
     public override string ToString() => Name.ToString();
 
@@ -231,6 +260,11 @@ public sealed class Exercise : IAggregateRoot
         {
             throw new ArgumentException(message, paramName);
         }
+    }
+
+    public void ClearDomainEvents()
+    {
+        _domainEvents.Clear();
     }
 
     private void Raise(IDomainEvent @event) => _domainEvents.Add(@event);

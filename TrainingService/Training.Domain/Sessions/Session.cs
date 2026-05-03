@@ -6,7 +6,7 @@ namespace Training.Domain.Sessions;
 /// <summary>
 /// Represents a performed training session aggregate root.
 /// </summary>
-public sealed class Session : IAggregateRoot
+public sealed class Session : IAggregateRoot, IHasDomainEvents
 {
     private readonly List<SessionExercise> _exercises = null!;
     private readonly List<IDomainEvent> _domainEvents = [];
@@ -158,6 +158,27 @@ public sealed class Session : IAggregateRoot
             session.StartedAtUtc,
             DateTimeOffset.UtcNow));
         return session;
+    }
+
+    public static Session Rehydrate(
+        Guid id,
+        Guid ownerUserId,
+        Guid? routineId,
+        DateTimeOffset startedAtUtc,
+        IEnumerable<SessionExercise> exercises,
+        Weight? bodyWeight,
+        DateTimeOffset? endedAtUtc,
+        SessionNote? note)
+    {
+        return new Session(
+            id,
+            ownerUserId,
+            routineId,
+            startedAtUtc,
+            exercises,
+            bodyWeight,
+            endedAtUtc,
+            note);
     }
 
     /// <summary>
@@ -444,5 +465,11 @@ public sealed class Session : IAggregateRoot
     }
 
     public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
+
+    public void ClearDomainEvents()
+    {
+        _domainEvents.Clear();
+    }
+
     private void Raise(IDomainEvent @event) => _domainEvents.Add(@event);
 }

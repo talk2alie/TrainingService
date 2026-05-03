@@ -1,11 +1,16 @@
 
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Serilog;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Training.Api.Middleware;
+using Training.Api.Services;
 using Training.Api.Swagger;
 using Training.Application;
 using Training.Domain;
@@ -42,7 +47,36 @@ public class Program
 
         builder.Services.AddDomainServices();
         builder.Services.AddApplicationServices();
-        builder.Services.AddInfrastructureServices();
+        builder.Services.AddInfrastructureServices(builder.Configuration);
+        builder.Services.AddHttpContextAccessor();
+        builder.Services.AddScoped<Training.Application.Interfaces.ICurrentUserAccessor, CurrentUserAccessor>();
+
+        builder.Services
+            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.Authority = builder.Configuration["Authentication:Authority"];
+                options.Audience = builder.Configuration["Authentication:Audience"];
+                options.RequireHttpsMetadata = true;
+            });
+
+        builder.Services.AddOpenTelemetry()
+            .ConfigureResource(resource => resource.AddService("Training.Api"))
+            .WithTracing(tracing =>
+            {
+                tracing
+                    .AddAspNetCoreInstrumentation()
+                    .AddHttpClientInstrumentation()
+                    .AddOtlpExporter();
+            })
+            .WithMetrics(metrics =>
+            {
+                metrics
+                    .AddAspNetCoreInstrumentation()
+                    .AddRuntimeInstrumentation()
+                    .AddHttpClientInstrumentation()
+                    .AddOtlpExporter();
+            });
 
         builder.Services.AddControllers();
         builder.Services.AddFluentValidationAutoValidation();
@@ -110,6 +144,7 @@ public class Program
 
         app.UseHttpsRedirection();
 
+        app.UseAuthentication();
         app.UseAuthorization();
 
 

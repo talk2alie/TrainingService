@@ -9,4 +9,5 @@
     <Project Path="Training.Api.Tests/Training.Api.Tests.csproj" />
     <Project Path="Training.Domain.Tests/Training.Domain.Tests.csproj" Id="3431cd9a-bfa1-4544-a8d4-55644ffd359a" />
   </Folder>
+  <Project Path="Training.Application.Tests/Training.Application.Tests.csproj" />
 </Solution>

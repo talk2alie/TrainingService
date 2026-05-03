@@ -169,8 +169,8 @@ public sealed class RoutineAggregateTests
         );
         var exerciseId = routine.AddExercise(Guid.NewGuid(), ExerciseName.Create("Bench Press"), new List<PlannedSet> { CreatePlannedSet(1) });
         var duplicateExerciseId = routine.Exercises[0].ExerciseId;
-        var ex = Assert.Throws<InvalidRoutineOperationException>(() => routine.AddExercise(duplicateExerciseId, ExerciseName.Create("Bench Press Variation"), new List<PlannedSet> { CreatePlannedSet(1) }));
-        Assert.Equal("The routine already contains this exercise.", ex.Message);
+        var ex = Assert.Throws<RoutineInvariantViolationException>(() => routine.AddExercise(duplicateExerciseId, ExerciseName.Create("Bench Press Variation"), new List<PlannedSet> { CreatePlannedSet(1) }));
+        Assert.Equal("Duplicate ExerciseId detected.", ex.Message);
     }
 
     [Fact]

@@ -1,6 +1,21 @@
 ﻿{
   "$schema": "https://json.schemastore.org/launchsettings.json",
   "profiles": {
+    "Docker": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
+      "httpPort": 8080,
+      "environmentVariables": {
+        "ASPNETCORE_HTTP_PORTS": "8080",
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "Authentication__Authority": "https://your-auth0-domain/",
+        "Authentication__Audience": "training-api",
+        "ConnectionStrings__TrainingDb": "Server=host.docker.internal,1433;Database=TrainingServiceDb;User Id=sa;Password=Your_password123;TrustServerCertificate=true;MultipleActiveResultSets=true;"
+      },
+      "publishAllPorts": false,
+      "useSSL": false
+    },
     "http": {
       "commandName": "Project",
       "dotnetRunMessages": true,
